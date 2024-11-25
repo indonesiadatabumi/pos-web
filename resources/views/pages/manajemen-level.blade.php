@@ -211,10 +211,11 @@
         </div>
 
         <br><br>
+        <div class="table-responsive">
         <table id="data-table-default" class="table table-striped table-bordered align-middle">
             <thead>
                 <tr>
-                    <th width="1%">No.</th>
+                    <th width="3%">No.</th>
                     <th class="text-nowrap" width="33%">Role</th>
                     @can('edit-manajemen-level')
                     <th class="text-nowrap" width="33%">Akses</th>
@@ -257,6 +258,7 @@
             </tbody>
         </table>
     </div>
+</div>
     <!-- END panel-body -->
 
     <script>

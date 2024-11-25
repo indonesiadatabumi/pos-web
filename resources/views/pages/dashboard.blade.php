@@ -145,7 +145,9 @@
 <!-- BAGIAN berita -->
 
 <div class="container-fluid mt-3">
-	<h1 class="mb-4">News</h1>
+@if ($news->isNotEmpty())
+    <h1 class="mb-4">News</h1>
+@endif
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
 	<div class="row">
 		@foreach ($news as $items)

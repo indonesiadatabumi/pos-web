@@ -87,7 +87,7 @@
             <tbody>
                 @foreach ($daftarUsaha as $index => $usaha)
                 <tr>
-                    <td class="fw-bold text-dark">{{ $index + 1 }}</td>
+                    <td class="fw-bold text-dark">{{ $index + 1 }}.</td>
                     <td>
                         @php
                         $npwrd = $usaha->npwrd;
@@ -147,7 +147,6 @@
                 <h5 class="modal-title" id="editModalLabel">Edit Daftar Usaha</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            @foreach ($daftarUsaha as $usaha)
             <form id="editForm" method="POST">
                 @csrf
                 @method('PUT')
@@ -224,7 +223,7 @@
                         <input type="file" class="form-control" id="foto" name="foto" />
                         <small class="form-text text-muted">Maksimal ukuran 2MB, format gambar(png,jpg,jpeg).</small>
                         <div>
-                            <img id="foto" src="{{ asset('storage/foto/'.$usaha->foto) }}" alt="Foto KTP" class="img-thumbnail" style="max-height: 200px;">
+                            <img id="fotoImage" src="" alt="Foto KTP" class="img-thumbnail" style="max-height: 200px;">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -235,7 +234,6 @@
         </div>
     </div>
 </div>
-@endforeach
 <!-- END Edit Modal -->
 
 <script>
@@ -253,6 +251,7 @@
         $('#email').val(usaha.email);
         $('#alamat_usaha').val(usaha.alamat_usaha);
         $('#pemilik').val(usaha.pemilik);
+        $('#fotoImage').attr('src', '/storage/foto/' + usaha.foto);
 
 
         $('#editForm').attr('action', '/daftar/usaha/update/' + usaha.id);

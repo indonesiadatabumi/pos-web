@@ -11223,7 +11223,25 @@ textarea.form-control-lg {
 
 .text-nowrap {
   white-space: nowrap !important;
+  overflow: hidden;
 }
+.table-responsive {
+  overflow-x: scroll;   
+  -webkit-overflow-scrolling: touch;  
+  margin-bottom: 1rem;
+}
+
+.table-responsive table {
+  width: 100%; 
+  table-layout: fixed; 
+}
+
+th, td {
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}
+
 
 /* rtl:begin:remove */
 .text-break {

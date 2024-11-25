@@ -19,13 +19,13 @@ return new class extends Migration
             $table->string('password'); 
             $table->rememberToken(); 
             $table->integer('status_aktif')->default(1); 
-            $table->unsignedBigInteger('role_id')->nullable(); 
+            $table->unsignedBigInteger('role_id'); 
             $table->unsignedBigInteger('daftar_id')->nullable();
             $table->timestamps(); 
 
          
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('set null'); 
-            $table->foreign('daftar_id')->references('id')->on('daftar_usaha')->onDelete('set null');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade'); 
+            $table->foreign('daftar_id')->references('id')->on('daftar_usaha')->onDelete('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -35,13 +35,14 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
+
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign(['role_id']); 
+        });
+        Schema::table('daftar_usaha', function (Blueprint $table){
+            $table->dropForeign(['daftar_id']);
         });
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');

@@ -74,7 +74,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mb-3" id="jenisWajibPajakRow" style="display: none;">
+                    <!-- <div class="form-group row mb-3" id="jenisWajibPajakRow" style="display: none;">
                         <label class="col-lg-4 col-form-label form-label">Jenis Wajib Pajak</label>
                         <div class="col-lg-8 d-flex align-items-center">
                             <input type="radio" id="hotel" name="jenis_wajib_pajak" value="hotel" required>
@@ -86,7 +86,7 @@
                             <input type="radio" id="hiburan" name="jenis_wajib_pajak" value="hiburan" required>
                             <label for="hiburan">Hiburan</label>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="form-group row mb-3" id="pemilikRow" style="display: none;">
                         <label class="col-lg-4 col-form-label form-label">Pemilik</label>
@@ -267,7 +267,7 @@
 
         let form = this;
 
-        if (form) {
+        if ($(form).parsley().isValid()) {
             Swal.fire({
                 title: 'Konfirmasi',
                 text: "Apakah Anda yakin ingin mengirimkan data ini?",

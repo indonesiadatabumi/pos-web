@@ -244,135 +244,134 @@
         </div>
         <br>
         <br>
-        <table id="data-table-default" class="table table-striped table-bordered align-middle">
-            <thead>
-                <tr>
-                    <th width="1%">No.</th>
-                    <th class="text-nowrap">Username</th>
-                    <th class="text-nowrap">Fullname</th>
-                    <th class="text-nowrap">Email</th>
-                    <th class="text-nowrap">Level</th>
-                    @can('edit-manajemen-user')
-                    <th class="text-nowrap" width="10%">Status</th>
-                    <th class="text-nowrap" width="12%">Aksi</th>
-                    @endcan
-                </tr>
-            </thead>
-            <tbody>
-
-                @foreach ($users as $key => $user)
-                <tr class="{{ $key % 2 == 0 ? 'odd' : 'even' }} gradeX">
-                    <td class="fw-bold text-dark">{{ $key + 1 }}</td>
-                    <td>{{ $user->username }}</td>
-                    <td>{{ $user->fullname }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->role_name ?? 'Tidak ada role' }}</td>
-                    @can('edit-manajemen-user')
-                    <td>
-                        @if ($user->status_aktif == 1)
-                        <button class="btn btn-success btn-sm toggle-status" data-id="{{ $user->id }}" data-status="0">
-                            Aktif
-                        </button>
-                        @else
-                        <button class="btn btn-danger btn-sm toggle-status" data-id="{{ $user->id }}" data-status="1">
-                            Tidak Aktif
-                        </button>
-                        @endif
-                    </td>
-                    <td>
-                        <button class="btn btn-primary btn-sm me-2"
-                            data-bs-toggle="modal"
-                            data-bs-target="#editUserModal"
-                            data-id="{{ $user->id }}"
-                            data-username="{{ $user->username }}"
-                            data-fullname="{{ $user->fullname }}"
-                            data-email="{{ $user->email }}"
-                            data-password="{{ $user->password }}"
-                            data-role-id="{{ $user->role_id }}"
-                            data-status="{{ $user->status_aktif }}">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        @can('delete-manajemen-user')
-                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;" class="delete-user-form">
-                            @csrf
-                            @method('DELETE')
-                            <button type="button" class="btn btn-danger btn-sm me-2 delete-user-btn" data-id="{{ $user->id }}">
-                                <i class="fa fa-trash"></i> Delete
-                            </button>
-                        </form>
+        <div class="table-responsive">
+            <table id="data-table-default" class="table table-striped table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th width="2%" class="text-nowrap">No.</th>
+                        <th class="text-nowrap">Username</th>
+                        <th class="text-nowrap">Fullname</th>
+                        <th class="text-nowrap">Email</th>
+                        <th class="text-nowrap">Level</th>
+                        @can('edit-manajemen-user')
+                        <th class="text-nowrap" width="10%">Status</th>
+                        <th class="text-nowrap" width="12%">Aksi</th>
                         @endcan
-                    </td>
-                    @endcan
-                </tr>
-                @endforeach
-                <!-- Modal Edit -->
-                <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($users as $key => $user)
+                    <tr class="{{ $key % 2 == 0 ? 'odd' : 'even' }} gradeX">
+                        <td class="fw-bold text-dark">{{ $key + 1 }}</td>
+                        <td>{{ $user->username }}</td>
+                        <td>{{ $user->fullname }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->role_name ?? 'Tidak ada role' }}</td>
+                        @can('edit-manajemen-user')
+                        <td>
+                            @if ($user->status_aktif == 1)
+                            <button class="btn btn-success btn-sm toggle-status" data-id="{{ $user->id }}" data-status="0">
+                                Aktif
+                            </button>
+                            @else
+                            <button class="btn btn-danger btn-sm toggle-status" data-id="{{ $user->id }}" data-status="1">
+                                Tidak Aktif
+                            </button>
+                            @endif
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-sm me-2"
+                                data-bs-toggle="modal"
+                                data-bs-target="#editUserModal"
+                                data-id="{{ $user->id }}"
+                                data-username="{{ $user->username }}"
+                                data-fullname="{{ $user->fullname }}"
+                                data-email="{{ $user->email }}"
+                                data-password="{{ $user->password }}"
+                                data-role-id="{{ $user->role_id }}"
+                                data-status="{{ $user->status_aktif }}">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            @can('delete-manajemen-user')
+                            <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;" class="delete-user-form">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="btn btn-danger btn-sm me-2 delete-user-btn" data-id="{{ $user->id }}">
+                                    <i class="fa fa-trash"></i> Delete
+                                </button>
+                            </form>
+                            @endcan
+                        </td>
+                        @endcan
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <!-- Modal Edit -->
+        <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editUserForm">
+                            @csrf
+                            @method('PUT') <!-- Pastikan ini ada -->
+                            <input type="hidden" id="edit_user_id" name="user_id">
+                            <div class="mb-3">
+                                <label for="edit_username" class="form-label">Username</label>
+                                <input type="text" style="background-color: #DEE1E6;" class="form-control" id="edit_username" name="username" required readonly>
                             </div>
-                            <div class="modal-body">
-                                <form id="editUserForm">
-                                    @csrf
-                                    @method('PUT') <!-- Pastikan ini ada -->
-                                    <input type="hidden" id="edit_user_id" name="user_id">
-                                    <div class="mb-3">
-                                        <label for="edit_username" class="form-label">Username</label>
-                                        <input type="text" style="background-color: #DEE1E6;" class="form-control" id="edit_username" name="username" required readonly>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="edit_fullname" class="form-label">Fullname</label>
-                                        <input type="text" style="background-color: #DEE1E6;" class="form-control" id="edit_fullname" name="fullname" required readonly>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="edit_email" class="form-label">Email</label>
-                                        <input type="email" style="background-color: #DEE1E6;" class="form-control" id="edit_email" name="email" required readonly>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="edit_password" class="form-label">password</label>
-                                        <input type="password" class="form-control" id="edit_password" name="password" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="edit_role_id" class="form-label">Level User</label>
-                                        <select class="form-select" id="edit_role_id" name="role_id" required>
-                                            <option value="">Pilih Role</option>
-                                            @foreach ($roles as $role)
-                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="edit_status_aktif" class="form-label">Status Aktif</label>
-                                        <select class="form-select" id="edit_status_aktif" name="status_aktif" required>
-                                            <option value="1">Aktif</option>
-                                            <option value="0">Tidak Aktif</option>
-                                        </select>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                                    </div>
-                                </form>
+                            <div class="mb-3">
+                                <label for="edit_fullname" class="form-label">Fullname</label>
+                                <input type="text" style="background-color: #DEE1E6;" class="form-control" id="edit_fullname" name="fullname" required readonly>
                             </div>
-                        </div>
+                            <div class="mb-3">
+                                <label for="edit_email" class="form-label">Email</label>
+                                <input type="email" style="background-color: #DEE1E6;" class="form-control" id="edit_email" name="email" required readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit_password" class="form-label">password</label>
+                                <input type="password" class="form-control" id="edit_password" name="password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit_role_id" class="form-label">Level User</label>
+                                <select class="form-select" id="edit_role_id" name="role_id" required>
+                                    <option value="">Pilih Role</option>
+                                    @foreach ($roles as $role)
+                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edit_status_aktif" class="form-label">Status Aktif</label>
+                                <select class="form-select" id="edit_status_aktif" name="status_aktif" required>
+                                    <option value="1">Aktif</option>
+                                    <option value="0">Tidak Aktif</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
+            </div>
+        </div>
 
 
-            </tbody>
+        </tbody>
         </table>
     </div>
     <!-- END panel-body -->
     <!-- BEGIN hljs-wrapper -->
 
 
-    <script>
-        $('#data-table-default').DataTable({
-            responsive: true
-        });
-    </script>
+
 </div>
 <!-- END panel -->
 @endsection
