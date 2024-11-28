@@ -63,7 +63,7 @@
     <!-- END panel-heading -->
 
     <!-- BEGIN panel-body -->
-    <div class="panel-body">
+    <div class="panel-body table-responsive">
         <table id="data-table-default" class="table table-striped table-bordered align-middle">
             <thead>
                 <tr>

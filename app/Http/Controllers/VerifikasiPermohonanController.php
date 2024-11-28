@@ -13,7 +13,10 @@ class VerifikasiPermohonanController extends Controller
 {
     public function index()
     {
-        $permohonan = PermohonanFaktur::rightJoin('permohonan_faktur_detil', 'permohonan_faktur.no_permohonan', '=', 'permohonan_faktur_detil.no_permohonan')->get();
+        $permohonan = PermohonanFaktur::rightJoin('permohonan_faktur_detil', 'permohonan_faktur.no_permohonan', '=', 'permohonan_faktur_detil.no_permohonan')
+        ->orderByRaw("FIELD(status, 'Menunggu', 'Diterima', 'Ditolak')")
+        ->get();
+
         return view('pages.verifikasi.permohonan.index', compact('permohonan'));
     }
 

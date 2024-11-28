@@ -67,6 +67,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('news/{id}', [NewsController::class, 'show'])->name('news.show')->middleware('can:edit-manajemen-berita');
     Route::put('news/{id}', [NewsController::class, 'update'])->name('news.update')->middleware('can:edit-manajemen-berita');
+    Route::put('news/{id}/toggle-status', [NewsController::class, 'toggleStatus'])->name('news.toggle-status')->middleware('can:edit-manajemen-berita');
 
     Route::delete('news/{id}', [NewsController::class, 'destroy'])->name('news.destroy')->middleware('can:delete-manajemen-berita');
 });

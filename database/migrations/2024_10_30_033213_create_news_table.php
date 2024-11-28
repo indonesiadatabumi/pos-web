@@ -13,6 +13,7 @@ class CreateNewsTable extends Migration
             $table->string('title');
             $table->text('content');
             $table->string('image')->nullable();
+            $table->integer('status_aktif')->default(1);
             $table->timestamps();
         });
     }

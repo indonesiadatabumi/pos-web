@@ -51,11 +51,13 @@
             var title = button.data('title');
             var content = button.data('content');
             var image = button.data('image');
+            var status = button.data('status');
 
             var modal = $(this);
             modal.find('#edit_berita_id').val(id);
             modal.find('#edit_title').val(title);
             modal.find('#edit_content').val(content);
+            modal.find('#edit_status_aktif').val(status);
             // Set image field for display in modal
             if (image) {
                 var imageUrl = '{{ asset("storage/image/") }}/' + image; // Atur URL gambar
@@ -94,39 +96,74 @@
     });
 
     $(document).ready(function() {
-        $(document).on('click', '.btn-danger', function(e) {
-            e.preventDefault(); // Mencegah pengiriman formulir default
-            var form = $(this).closest('form'); // Temukan formulir terdekat
+        $('.toggle-status').on('click', function() {
+            var id = $(this).data('id');
+            var newStatus = $(this).data('status');
+            var actionText = newStatus === 1 ? 'aktifkan' : 'nonaktifkan'; // Teks berdasarkan status baru
 
             // Menggunakan SweetAlert untuk konfirmasi
             Swal.fire({
-                title: ' Ingin Menghapus Berita ini?',
-                text: "Anda tidak akan dapat mengembalikan berita ini!",
+                title: 'Konfirmasi',
+                text: 'Apakah Anda yakin ingin ' + actionText + ' berita ini?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, hapus!',
+                confirmButtonText: 'Ya, lanjutkan!',
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    // Melakukan permintaan AJAX untuk mengubah status
                     $.ajax({
-                        url: form.attr('action'), // Ambil URL tindakan dari formulir
-                        type: 'POST', // Gunakan metode POST
+                        url: "{{ url('/news') }}/" + id + "/toggle-status",
+                        type: 'PUT',
                         data: {
-                            _method: 'DELETE',
-                            _token: '{{ csrf_token() }}' // Sertakan token CSRF
+                            _token: $('meta[name="csrf-token"]').attr('content'),
+                            status_aktif: newStatus
                         },
                         success: function(response) {
-                            // Muat ulang halaman atau segarkan tabel data
-                            location.reload();
+                            // Menampilkan pesan sukses
+                            Swal.fire(
+                                'Berhasil!',
+                                response.message,
+                                'success'
+                            ).then(() => {
+                                // Memuat ulang halaman setelah pengguna mengklik OK
+                                location.reload(); // Memuat ulang halaman untuk mencerminkan perubahan
+                            });
                         },
                         error: function(xhr) {
-                            alert('Gagal menghapus berita: ' + xhr.responseText);
+                            Swal.fire(
+                                'Error!',
+                                'Terjadi kesalahan saat mengubah status.',
+                                'error'
+                            );
                         }
                     });
                 }
             });
+        });
+    });
+
+    $('.delete-news-btn').on('click', function() {
+        var id = $(this).data('id');
+        var form = $(this).closest('.delete-news-form'); // Ambil form yang sesuai
+
+        // Menggunakan SweetAlert untuk konfirmasi
+        Swal.fire({
+            title: 'Konfirmasi Hapus',
+            text: 'Apakah Anda yakin ingin menghapus berita ini?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                form.submit();
+            }
         });
     });
 </script>
@@ -161,7 +198,7 @@
     </div>
     @endif
     <!-- BEGIN panel-body -->
-    <div class="panel-body">
+    <div class="panel-body table-responsive">
         <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addBeritaModal">
             <i class="fas fa-plus"></i> Tambah Berita
         </button>
@@ -182,8 +219,16 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="content" class="form-labe">Konten</label>
+                                <label for="content" class="form-label">Konten</label>
                                 <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="status_aktif" class="form-label">Status Aktif</label>
+                                <select class="form-select" id="status_aktif" name="status_aktif" required>
+                                    <option value="1">Aktif</option>
+                                    <option value="0">Tidak Aktif</option>
+                                </select>
                             </div>
 
                             <div class="mb-3">
@@ -208,6 +253,7 @@
                     <th width="1%">No.</th>
                     <th class="text-nowrap">Judul</th>
                     <th class="text-nowrap">Isi Konten</th>
+                    <th class="text-nowrap">status</th>
                     <th class="text-nowrap">Gambar</th>
                     <th class="text-nowrap" width="12%">Aksi</th>
                 </tr>
@@ -218,7 +264,17 @@
                 <tr class="{{ $key % 2 == 0 ? 'odd' : 'even' }} gradeX">
                     <td class="fw-bold text-dark">{{ $key + 1 }}</td>
                     <td>{{ $item->title }}</td>
-                    <td>{!! nl2br(e($item->content)) !!}
+                    <td>{!! nl2br(e($item->content)) !!} </td>
+                    <td>
+                        @if ($item->status_aktif == 1)
+                        <button class="btn btn-success btn-sm toggle-status" data-id="{{ $item->id }}" data-status="0">
+                            Aktif
+                        </button>
+                        @else
+                        <button class="btn btn-danger btn-sm toggle-status" data-id="{{ $item->id }}" data-status="1">
+                            Tidak Aktif
+                        </button>
+                        @endif
                     </td>
                     <td>
                         @if($item->image)
@@ -234,13 +290,14 @@
                             data-id="{{ $item->id }}"
                             data-title="{{ $item->title }}"
                             data-content="{{ $item->content }}"
-                            data-image="{{ $item->image }}">
+                            data-image="{{ $item->image }}"
+                            data-status="{{ $item->status_aktif}}">
                             <i class="fas fa-edit"></i> Edit
                         </button>
-                        <form action="{{ route('news.destroy', $item->id) }}" method="POST" style="display:inline;">
+                        <form action="{{ route('news.destroy', $item->id) }}" method="POST" style="display:inline;" class="delete-news-form">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm me-2">
+                            <button type="button" class="btn btn-danger btn-sm me-2 delete-news-btn" data-id="{{ $item->id }}">
                                 <i class="fa fa-trash"></i> Delete
                             </button>
                         </form>
@@ -267,6 +324,13 @@
                                     <div class="mb-3">
                                         <label for="edit_content" class="form-label">Content</label>
                                         <textarea class="form-control" id="edit_content" name="content" rows="5" required></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="edit_status_aktif" class="form-label">Status Aktif</label>
+                                        <select class="form-select" id="edit_status_aktif" name="status_aktif" required>
+                                            <option value="1">Aktif</option>
+                                            <option value="0">Tidak Aktif</option>
+                                        </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="edit_image" class="form-label">Gambar (opsional)</label>

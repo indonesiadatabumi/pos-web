@@ -14,6 +14,7 @@ class MainController extends Controller
     public function dashboard()
     {
         $news = News::all();
+        $news = News::where('status_aktif', 1)->orderBy('id', 'desc')->get(); 
 
         $totalJmlLembar = Billing::sum('ssrd_jml_lembar');
         $pengajuanProses = VerifikasiPermohonan::where('status', 'diterima')->count();

@@ -42,9 +42,18 @@
 <script src="/assets/plugins/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    $('#data-table-default').DataTable({
-
+      $(document).ready(function() {
+    var table = $('#data-table-default').DataTable({
+        "order": [
+            [5, 'des']  
+        ]
     });
+
+    table.on('xhr', function() {
+        table.order([5, 'asc']).draw();  
+    });
+
+
     $(document).on('click', '.validate-btn', function() {
         var status = $(this).data('status');
         if (status === 'Diterima') {
@@ -112,6 +121,7 @@
             }
         });
     }
+});
 </script>
 
 @endpush
