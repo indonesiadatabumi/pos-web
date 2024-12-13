@@ -42,30 +42,39 @@
 <script src="/assets/plugins/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    $('#data-table-default').DataTable({
+    $(document).ready(function() {
+        var table = $('#data-table-default').DataTable({
+            "order": [
+                [5, 'des']
+            ]
+        });
 
-    });
-    $(document).on('click', '.validate-btn', function() {
-        var status = $(this).data('status');
-        if (status === 'Diterima') {
-            Swal.fire('Status Diterima!', 'Permohonan ini sudah diterima.', 'info');
-            return;
-        }
+        table.on('xhr', function() {
+            table.order([5, 'asc']).draw();
+        });
 
-        var permohonanId = $(this).data('id');
-        var no_permohonan = $(this).data('no_permohonan');
-        var no_seri = $(this).data('no_seri');
-        var nm_wr = $(this).data('nm_wr');
-        var nm_retribusi = $(this).data('nm_retribusi');
-        var no_awal = $(this).data('no_awal');
-        var no_akhir = $(this).data('no_akhir');
-        var jml_lembar = $(this).data('jml_lembar');
-        var tarif = $(this).data('tarif');
-        var total = $(this).data('total');
 
-        Swal.fire({
-            title: 'Validasi Permohonan',
-            html: `
+        $(document).on('click', '.validate-btn', function() {
+            var status = $(this).data('status');
+            if (status === 'Diterima') {
+                Swal.fire('Status Diterima!', 'Permohonan ini sudah diterima.', 'info');
+                return;
+            }
+
+            var permohonanId = $(this).data('id');
+            var no_permohonan = $(this).data('no_permohonan');
+            var no_seri = $(this).data('no_seri');
+            var nm_wr = $(this).data('nm_wr');
+            var nm_retribusi = $(this).data('nm_retribusi');
+            var no_awal = $(this).data('no_awal');
+            var no_akhir = $(this).data('no_akhir');
+            var jml_lembar = $(this).data('jml_lembar');
+            var tarif = $(this).data('tarif');
+            var total = $(this).data('total');
+
+            Swal.fire({
+                title: 'Validasi Permohonan',
+                html: `
             <p><strong>No. Permohonan:</strong> ${no_permohonan}</p>
             <p><strong>No. Seri:</strong> ${no_seri}</p>
             <p><strong>Nama WR:</strong> ${nm_wr}</p>
@@ -76,45 +85,44 @@
             <p><strong>Tarif:</strong> ${tarif}</p>
             <p><strong>Total:</strong> ${total}</p>
         `,
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Diterima',
-            // cancelButtonText: 'Ditolak',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                updateStatus(permohonanId, 'Diterima');
-                // } else if (result.dismiss === Swal.DismissReason.cancel) {
-                //     updateStatus(permohonanId, 'Ditolak');
-            }
-        });
-    });
-
-    function updateStatus(id, status) {
-        $.ajax({
-            url: '/permohonan/update-status',
-            method: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                id: id,
-                status: status
-            },
-            success: function(response) {
-                if (response.success) {
-                    Swal.fire('Berhasil!', 'Status permohonan berhasil diubah.', 'success')
-                        .then(() => {
-                            location.reload();
-                        });
-                } else {
-                    Swal.fire('Error!', 'Gagal mengubah status permohonan.', 'error');
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Diterima',
+                // cancelButtonText: 'Ditolak',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    updateStatus(permohonanId, 'Diterima');
+                    // } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    //     updateStatus(permohonanId, 'Ditolak');
                 }
-            },
-            error: function() {
-                Swal.fire('Error!', 'Terjadi kesalahan pada server.', 'error');
-            }
+            });
         });
-    }
-    });
+
+        function updateStatus(id, status) {
+            $.ajax({
+                url: '/permohonan/update-status',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: id,
+                    status: status
+                },
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire('Berhasil!', 'Status permohonan berhasil diubah.', 'success')
+                            .then(() => {
+                                location.reload();
+                            });
+                    } else {
+                        Swal.fire('Error!', 'Gagal mengubah status permohonan.', 'error');
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error!', 'Terjadi kesalahan pada server.', 'error');
+                }
+            });
+        }
     });
 </script>
 
