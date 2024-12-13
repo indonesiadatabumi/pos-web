@@ -95,10 +95,12 @@ Route::put('/verifikasi/permohonan/{id}', [VerifikasiPermohonanController::class
 Route::post('/permohonan/update-status', [VerifikasiPermohonanController::class, 'updateStatus']);
 Route::get('/verifikasi/permohonan/cetak/{id}', [VerifikasiPermohonanController::class, 'cetak'])->name('pages.verifikasi.permohonan.cetak');
 Route::get('/prn-ba-karcis', [VerifikasiPermohonanController::class, 'cetakPdf'])->name('cetak.karcis.pdf');
+Route::get('/jenis-retribusi', [DaftarUsahaController::class, 'getJenisRetribusi'])->name('pages.daftar.usaha.jenis-retribusi');
 
 
 Route::get('/get-npwrd-sequence/{kd_kecamatan}', [DaftarUsahaController::class, 'getNpwrdSequence']);
 
+Route::get('/permohonan/faktur/retribusi/{daftar_id}', [PermohonanFakturController::class, 'getRetribusiByNpwrd']);
 
 
 Route::get('/daftar/usaha', [DaftarUsahaController::class, 'index'])->name('pages.daftar.usaha.index');

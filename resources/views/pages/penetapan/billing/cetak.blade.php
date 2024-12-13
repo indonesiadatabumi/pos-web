@@ -118,7 +118,7 @@
                                 <td>{{ $billing->ssrd_jml_lembar }}</td>
                                 <td>{{ $billing->ssrd_tarif }}</td>
                                 <td>{{ number_format($billing->ssrd_nilai_setor, 0, ',', '.') }}</td>
-                                <td>{{ $billing->tanggal_rekam }}</td>
+                                <td>{{ $billing->formatted_created_at }}</td>
                             </tr>
 
                             @php

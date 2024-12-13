@@ -13,7 +13,17 @@ class VerifikasiPermohonanController extends Controller
 {
     public function index()
     {
-        $permohonan = PermohonanFaktur::rightJoin('permohonan_faktur_detil', 'permohonan_faktur.no_permohonan', '=', 'permohonan_faktur_detil.no_permohonan')->get();
+        $permohonan = PermohonanFaktur::rightJoin('permohonan_faktur_detil', 'permohonan_faktur.no_permohonan', '=', 'permohonan_faktur_detil.no_permohonan')
+            ->select(
+                'permohonan_faktur.id as permohonan_faktur_id',
+                'permohonan_faktur_detil.id as permohonan_faktur_detil_id',
+                'permohonan_faktur.*',
+                'permohonan_faktur_detil.*'
+            )
+            ->orderByRaw("FIELD(status, 'Menunggu', 'Diterima', 'Ditolak')")
+            ->get();
+
+        // dd($permohonan);
         return view('pages.verifikasi.permohonan.index', compact('permohonan'));
     }
 
@@ -25,24 +35,24 @@ class VerifikasiPermohonanController extends Controller
 
     public function validateRequest($id)
     {
-        $permohonan = PermohonanFaktur::findOrFail($id);
+        $permohonan = PermohonanFakturDetil::findOrFail($id);
         $permohonan->status = 'Diterima';
         $permohonan->save();
 
-        VerifikasiPermohonan::where('no_permohonan', $permohonan->no_permohonan)
-            ->update(['status' => 'Diterima']);
+        // VerifikasiPermohonan::where('no_permohonan', $permohonan->no_permohonan)
+        //     ->update(['status' => 'Diterima']);
 
         return redirect()->route('pages.verifikasi.permohonan.index')->with('success', 'Data telah diverifikasi dan Permohonan Anda Diterima.');
     }
 
     public function invalidateRequest($id)
     {
-        $permohonan = PermohonanFaktur::findOrFail($id);
+        $permohonan = PermohonanFakturDetil::findOrFail($id);
         $permohonan->status = 'Ditolak';
         $permohonan->save();
 
-        VerifikasiPermohonan::where('no_permohonan', $permohonan->no_permohonan)
-            ->update(['status' => 'Ditolak']);
+        // VerifikasiPermohonan::where('no_permohonan', $permohonan->no_permohonan)
+        //     ->update(['status' => 'Ditolak']);
 
         return redirect()->route('pages.verifikasi.permohonan.index')->with('error', 'Data telah diverifikasi dan Permohonan Anda Ditolak.');
     }
@@ -57,6 +67,7 @@ class VerifikasiPermohonanController extends Controller
             'alamat_usaha' => 'required|string|max:255',
             'no_handphone' => 'required|digits_between:10,15',
             'pemilik' => 'required|string|max:255',
+            'kd_rekening' => 'required|string|max:20',
             'no_seri' => 'required|array',
             'no_seri.*' => 'required|string',
             'no_awal' => 'required|array',
@@ -81,7 +92,7 @@ class VerifikasiPermohonanController extends Controller
                 'alamat_usaha' => $request->alamat_usaha,
                 'no_handphone' => $request->no_handphone,
                 'pemilik' => $request->pemilik,
-                'status' => 'Menunggu'
+                'kd_rekening' => $request->kd_rekening,
 
             ]);
 
@@ -94,6 +105,8 @@ class VerifikasiPermohonanController extends Controller
                     'tarif' => $request->tarif[$index],
                     'total' => $request->total[$index],
                     'no_permohonan' => $request->no_permohonan,
+                    'status' => 'Menunggu'
+
                 ]);
             }
             VerifikasiPermohonan::create([
@@ -104,7 +117,8 @@ class VerifikasiPermohonanController extends Controller
                 'alamat_usaha' => $request->alamat_usaha,
                 'no_handphone' => $request->no_handphone,
                 'pemilik' => $request->pemilik,
-                'status' => 'Menunggu'
+                'kd_rekening' => $request->kd_rekening,
+                // 'status' => 'Menunggu'
             ]);
         } catch (\Exception $e) {
             return back()->withErrors([
@@ -122,14 +136,14 @@ class VerifikasiPermohonanController extends Controller
 
     public function updateStatus(Request $request)
     {
-        $permohonan = PermohonanFaktur::find($request->id);
-
+        $permohonan = PermohonanFakturDetil::find($request->id);
+        // dd($permohonan);
         if ($permohonan) {
             $permohonan->status = $request->status;
             $permohonan->save();
 
-            VerifikasiPermohonan::where('no_permohonan', $permohonan->no_permohonan)
-                ->update(['status' => $request->status]);
+            // VerifikasiPermohonan::where('no_permohonan', $permohonan->no_permohonan)
+            //     ->update(['status' => $request->status]);
 
             return response()->json(['success' => true]);
         }

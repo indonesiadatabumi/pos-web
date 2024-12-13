@@ -26,11 +26,16 @@ class VerifikasiPermohonan extends Model
         'tarif',
         'total',
         'tanggal_permohonan',
-        'status',
+        // 'status',
+        'kd_rekening',
     ];
 
     public function daftarUsaha()
     {
         return $this->belongsTo(DaftarUsaha::class, 'npwrd', 'npwrd');
+    }
+    public function jenis_retribusi()
+    {
+        return $this->belongsTo(JenisRetribusi::class, 'kd_rekening', 'kd_rekening');
     }
 }

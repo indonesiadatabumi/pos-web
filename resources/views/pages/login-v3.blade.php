@@ -23,10 +23,10 @@
 <div class="login login-with-news-feed">
 	<!-- BEGIN news-feed -->
 	<div class="news-feed">
-		<div class="news-image" style="background-image: url(/assets/img/login-bg/bekasi-barat.jpg);"></div>
+		<div class="news-image" style="background-image: url(/assets/img/login-bg/pajak-kutai.jpg);"></div>
 		<div class="news-caption text-left position-absolute w-100 h-75 d-flex flex-column justify-content-center align-items-left">
 			<h1 class="caption-text text-white" style="font-size: 55px; font-family: 'Poppins', sans-serif; font-weight: 900;">
-				Badan <br>Pendapatan <br>Daerah <br>Kota<br>Bekasi
+				Badan <br>Pendapatan <br>Daerah <br>Kota<br>Kutai<br>Kartanegara
 			</h1>
 			<div class="text-white mt-auto mb-3" style="font-size: 12px;">&copy; Copyright@Databumi</div>
 		</div>

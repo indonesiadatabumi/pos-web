@@ -7,6 +7,7 @@ use App\Models\News;
 use App\Models\Registrasi;
 use App\Models\Billing;
 use App\Models\PermohonanFaktur;
+use App\Models\PermohonanFakturDetil;
 use App\Models\VerifikasiPermohonan;
 
 class MainController extends Controller
@@ -14,9 +15,10 @@ class MainController extends Controller
     public function dashboard()
     {
         $news = News::all();
+        $news = News::where('status_aktif', 1)->orderBy('id', 'desc')->get();
 
         $totalJmlLembar = Billing::sum('ssrd_jml_lembar');
-        $pengajuanProses = VerifikasiPermohonan::where('status', 'diterima')->count();
+        $pengajuanProses = PermohonanFakturDetil::where('status', 'Diterima')->count();
         $jumlahPengajuan = PermohonanFaktur::count();
         $totalSetor = Billing::sum('ssrd_nilai_setor');
 

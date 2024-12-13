@@ -58,12 +58,12 @@
     <!-- BEGIN panel-heading -->
     <div class="panel-heading">
         <i class="fas fa-sign-in-alt icon"></i>
-        <div class="title">Daftar Usaha</div>
+        <div class="title">Daftar Usaha saya</div>
     </div>
     <!-- END panel-heading -->
 
     <!-- BEGIN panel-body -->
-    <div class="panel-body table-responsive">
+    <div class="panel-body">
         <table id="data-table-default" class="table table-striped table-bordered align-middle">
             <thead>
                 <tr>
@@ -168,10 +168,6 @@
                         <input type="text" class="form-control" id="nama" name="nama" required>
                     </div>
                     <div class="mb-3">
-                        <label for="kd_rekening" class="form-label">Jenis Retribusi</label>
-                        <input type="text" class="form-control-2" id="kd_rekening" name="kd_rekening" required readonly>
-                    </div>
-                    <div class="mb-3">
                         <label for="kota" class="form-label">Kota</label>
                         <input type="text" class="form-control" id="kota" name="kota" required>
                     </div>
@@ -250,7 +246,6 @@
         $('#nm_wr').val(usaha.nm_wr);
         $('#npwrd').val(usaha.npwrd);
         $('#nama').val(usaha.nama);
-        $('#kd_rekening').val(usaha.jenis_retribusi.nm_retribusi);
         $('#kota').val(usaha.kota);
         $('#no_handphone').val(usaha.no_handphone);
         $('#email').val(usaha.email);

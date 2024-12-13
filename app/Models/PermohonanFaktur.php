@@ -21,13 +21,14 @@ class PermohonanFaktur extends Model
         'alamat_usaha',
         'no_handphone',
         'pemilik',
+        'kd_rekening',
         // 'no_seri',
         // 'no_awal',
         // 'no_akhir',
         // 'jml_lembar',
         // 'tarif',
         // 'total',
-        'status',
+        // 'status',
     ];
 
     public function daftarUsaha()
@@ -42,5 +43,9 @@ class PermohonanFaktur extends Model
     public function details()
     {
         return $this->hasMany(PermohonanFakturDetil::class, 'no_permohonan', 'no_permohonan');
+    }
+    public function jenis_retribusi()
+    {
+        return $this->belongsTo(JenisRetribusi::class, 'kd_rekening', 'kd_rekening');
     }
 }

@@ -134,7 +134,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="metode_bayar"> Pilih Metode Pembayaran</label>
@@ -143,13 +143,13 @@
                                                 <option value="Qris">QRIS</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> -->
 
 
-                                    <div class="text-right">
-                                        <button type="reset" class="btn btn-danger">Reset</button>
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                    </div>
+                                <div class="text-right">
+                                    <button type="reset" class="btn btn-danger">Reset</button>
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </div>
 
                             </form>
                         </div>

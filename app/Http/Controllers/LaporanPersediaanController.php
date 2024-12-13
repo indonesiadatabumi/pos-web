@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-use App\models\Billing;
+use App\Models\Billing;
 use Illuminate\Support\Carbon;
 
 class LaporanPersediaanController extends Controller

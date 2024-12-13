@@ -78,7 +78,7 @@
         <p>No. STS: {{ $billings->id_billing }}</p>
         <p>Dari: {{ $billings->daftarUsaha_nama }}</p>
         <p>Kepada: Badan Pendapatan Daerah</p>
-        <p>Tanggal Setor: {{ $billings->tanggal_rekam }}</p>
+        <p>Tanggal Setor: {{ $billings->formatted_created_at }}</p>
 
         <table class="table-rekap-sts">
             <thead>
@@ -161,4 +161,5 @@
     </div>
     </div>
 </body>
+
 </html>

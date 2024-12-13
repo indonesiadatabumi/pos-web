@@ -30,7 +30,7 @@ class BillingController extends Controller
             'ssrd_sisa' => 'required|integer',
             'ssrd_tarif' => 'required|integer',
             'ssrd_nilai_setor' => 'required|integer',
-            'metode_bayar' => 'required|string',
+            // 'metode_bayar' => 'required|string',
         ]);
 
         $verifikasiPermohonan = VerifikasiPermohonan::rightJoin(
@@ -56,7 +56,7 @@ class BillingController extends Controller
                 'ssrd_sisa' => $request->ssrd_sisa,
                 'ssrd_tarif' => $request->ssrd_tarif,
                 'ssrd_nilai_setor' => $request->ssrd_nilai_setor,
-                'metode_bayar' => $request->metode_bayar,
+                // 'metode_bayar' => $request->metode_bayar,
             ]);
 
             // Billing::create([

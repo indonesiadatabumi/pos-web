@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('ssrd_sisa');
             $table->integer('ssrd_tarif');
             $table->integer('ssrd_nilai_setor');
-            $table->string('metode_bayar');
+            // $table->string('metode_bayar');
             $table->timestamps();
         });
     }

@@ -18,7 +18,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function() {
-        // Saat modal edit user ditampilkan, isi data pengguna ke dalam form
+       
         $('#editUserModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget);
             var userId = button.data('id');
@@ -39,7 +39,7 @@
             modal.find('#edit_status_aktif').val(status);
         });
 
-        // Tangani submit form edit user dengan AJAX
+
         $('#editUserForm').on('submit', function(event) {
             event.preventDefault();
             var formData = $(this).serialize();
@@ -62,13 +62,13 @@
             });
         });
 
-        // Tangani perubahan status aktif langsung dari tabel
+   
         $('.toggle-status').on('click', function() {
             var userId = $(this).data('id');
             var newStatus = $(this).data('status');
-            var actionText = newStatus === 1 ? 'aktifkan' : 'nonaktifkan'; // Teks berdasarkan status baru
+            var actionText = newStatus === 1 ? 'aktifkan' : 'nonaktifkan'; 
 
-            // Menggunakan SweetAlert untuk konfirmasi
+           
             Swal.fire({
                 title: 'Konfirmasi',
                 text: 'Apakah Anda yakin ingin ' + actionText + ' user ini?',
@@ -80,7 +80,7 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Melakukan permintaan AJAX untuk mengubah status
+    
                     $.ajax({
                         url: "{{ url('/users') }}/" + userId + "/toggle-status",
                         type: 'PUT',
@@ -89,14 +89,13 @@
                             status_aktif: newStatus
                         },
                         success: function(response) {
-                            // Menampilkan pesan sukses
+              
                             Swal.fire(
                                 'Berhasil!',
                                 response.message,
                                 'success'
                             ).then(() => {
-                                // Memuat ulang halaman setelah pengguna mengklik OK
-                                location.reload(); // Memuat ulang halaman untuk mencerminkan perubahan
+                                location.reload(); 
                             });
                         },
                         error: function(xhr) {
@@ -112,9 +111,8 @@
         });
         $('.delete-user-btn').on('click', function() {
             var userId = $(this).data('id');
-            var form = $(this).closest('.delete-user-form'); // Ambil form yang sesuai
+            var form = $(this).closest('.delete-user-form'); 
 
-            // Menggunakan SweetAlert untuk konfirmasi
             Swal.fire({
                 title: 'Konfirmasi Hapus',
                 text: 'Apakah Anda yakin ingin menghapus user ini?',
@@ -126,8 +124,7 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Jika pengguna mengonfirmasi, kirimkan form
-                    form.submit(); // Mengirimkan form untuk menghapus user
+                    form.submit(); 
                 }
             });
         });

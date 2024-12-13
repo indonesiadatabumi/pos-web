@@ -22,7 +22,7 @@ class CreateLaporanPermohonanTable extends Migration
             $table->string('no_awal', 20);
             $table->string('no_akhir', 20);
             $table->integer('jml_lembar');
-            $table->timestamp('tanggal_permohonan');
+            // $table->timestamp('tanggal_permohonan');
             $table->timestamps();
             $table->foreign('npwrd')->references('npwrd')->on('permohonan_faktur')
                 ->onUpdate('cascade')

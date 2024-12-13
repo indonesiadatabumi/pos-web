@@ -17,8 +17,15 @@ class CreatePermohonanFakturTable extends Migration
             $table->string('alamat_usaha');
             $table->string('no_handphone');
             $table->string('pemilik');
-            $table->enum('status', ['Diterima', 'Menunggu', 'Ditolak']);
+            $table->string('kd_rekening', 20);
+            // $table->enum('status', ['Diterima', 'Menunggu', 'Ditolak']);
             $table->timestamps();
+
+            $table->foreign('kd_rekening')->references('kd_rekening')->on('jenis_retribusi')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+
             $table->foreign('npwrd')->references('npwrd')->on('daftar_usaha')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');

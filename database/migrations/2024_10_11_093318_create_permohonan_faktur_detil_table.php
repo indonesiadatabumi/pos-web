@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('jml_lembar');
             $table->integer('tarif');
             $table->integer('total');
+            $table->enum('status', ['Diterima', 'Menunggu', 'Ditolak']);
             $table->timestamps();
             $table->foreign('no_permohonan')->references('no_permohonan')->on('permohonan_faktur')->onDelete('cascade')->onUpdate('cascade');
         });

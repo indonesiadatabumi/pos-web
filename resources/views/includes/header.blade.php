@@ -16,7 +16,7 @@ $appHeaderTopMenu = (!empty($appHeaderTopMenu)) ? $appHeaderTopMenu : '';
 			<span class="icon-bar"></span>
 		</button>
 		@endif
-		<a href="/" class="navbar-brand"> <img src="/images/bekasi.png" alt="e-Porporasi Logo" class="logo"><b>e-Porporasi</b></a>
+		<a href="/" class="navbar-brand"> <img src="/images/kutai.png" alt="e-Porporasi Logo" class="logo"><b>e-Porporasi</b></a>
 		@if ($appHeaderMegaMenu && !$appSidebarTwo)
 		<button type="button" class="navbar-mobile-toggler" data-bs-toggle="collapse" data-bs-target="#top-navbar">
 			<span class="fa-stack fa-lg">

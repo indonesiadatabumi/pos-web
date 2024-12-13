@@ -56,7 +56,7 @@
                                     <td>${billing.daftarUsaha_alamat}</td>
                                     <td>${billing.id_billing}</td>
                                     <td>${billing.ssrd_nilai_setor}</td>
-                                    <td>${billing.tanggal_rekam}</td>
+                                    <td>${billing.formatted_created_at}</td>
                                 </tr>
                             `);
 						});
@@ -77,14 +77,14 @@
 		// Event listener untuk dropdown nama dan input tanggal
 		$('#wajibRetribusi, #StartDate, #EndDate').on('change', fetchBillings);
 		$('#resetFilters').on('click', function() {
-            // Kosongkan nilai dropdown dan tanggal
+			// Kosongkan nilai dropdown dan tanggal
 			$('#wajibRetribusi').val('');
-            $('#StartDate').val('');
-            $('#EndDate').val('');
+			$('#StartDate').val('');
+			$('#EndDate').val('');
 
-            // Panggil fetchBillings untuk menampilkan semua data
-            fetchBillings();
-        });
+			// Panggil fetchBillings untuk menampilkan semua data
+			fetchBillings();
+		});
 	});
 </script>
 
@@ -160,7 +160,7 @@
 				</div>
 			</div>
 			<div class="container-fluid mt-3 text-start">
-			<button id="resetFilters" class="btn btn-secondary btn-sm">
+				<button id="resetFilters" class="btn btn-secondary btn-sm">
 					<i class="fa fa-refresh"></i> Reset Filter
 				</button>
 				<a href="{{ url('prn-ba-sts') }}" target="_blank" class="btn btn-warning btn-sm">
@@ -196,7 +196,7 @@
 							<td>{{ $billing->daftarUsaha_alamat}}</td>
 							<td>{{ $billing->id_billing }}</td>
 							<td>{{ $billing->ssrd_nilai_setor}}</td>
-							<td>{{ $billing->tanggal_rekam}}</td>
+							<td>{{ $billing->formatted_created_at}}</td>
 						</tr>
 						@endforeach
 					</tbody>

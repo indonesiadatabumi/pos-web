@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-use App\models\Billing;
+use App\Models\Billing;
+use Carbon\Carbon;
 
 class LaporanStrukController extends Controller
 {
     public function index(Request $request)
     {
-        // Inisialisasi query dasar
+        // Inisialisasi query dasa
         $billings = Billing::all();
         $query = Billing::join('daftar_usaha', 'billing.npwrd', '=', 'daftar_usaha.npwrd')
             ->select(
@@ -24,10 +25,13 @@ class LaporanStrukController extends Controller
         }
 
         if ($request->filled('start_date') && $request->filled('end_date')) {
-            $query->whereBetween('billing.tanggal_rekam', [$request->start_date, $request->end_date]);
+            $query->whereBetween('billing.created_at', [$request->start_date, $request->end_date]);
         }
-
-        $billings = $query->get();
+        $billings = $query->get()->map(function ($item) {
+            $item->formatted_created_at = Carbon::parse($item->created_at)->format('Y-m-d');
+            $item->ssrd_jml_lembar = $item->ssrd_no_akhir + $item->ssrd_sisa;
+            return $item;
+        });
 
         if ($request->ajax()) {
             return response()->json($billings);

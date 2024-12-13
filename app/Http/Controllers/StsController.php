@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
-use App\models\Billing;
+use App\Models\Billing;
+use Carbon\Carbon;
 
 class StsController extends Controller
 {
@@ -23,10 +24,12 @@ class StsController extends Controller
         }
 
         if ($request->filled('start_date') && $request->filled('end_date')) {
-            $query->whereBetween('billing.tanggal_rekam', [$request->start_date, $request->end_date]);
+            $query->whereBetween('billing.created_at', [$request->start_date, $request->end_date]);
         }
-
-        $billings = $query->get();
+        $billings = $query->get()->map(function ($item) {
+            $item->formatted_created_at = Carbon::parse($item->created_at)->format('Y-m-d');
+            return $item;
+        });
 
         if ($request->ajax()) {
             return response()->json($billings);

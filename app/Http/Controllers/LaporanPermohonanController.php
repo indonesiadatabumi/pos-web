@@ -30,20 +30,16 @@ class LaporanPermohonanController extends Controller
             $query->whereBetween('permohonan_faktur.created_at', [$request->start_date, $request->end_date]);
         }
 
-        // Ambil data dan format
         $laporanPermohonan = $query->get()->map(function ($item) {
             $item->formatted_created_at = Carbon::parse($item->created_at)->format('Y-m-d');
             $item->formatted_tarif = 'Rp' . number_format($item->tarif, 0, ',', '.');
             $item->formatted_total = 'Rp' . number_format($item->total, 0, ',', '.');
             return $item;
         });
-
-        // Jika request menggunakan AJAX, kembalikan data dalam JSON
         if ($request->ajax()) {
             return response()->json($laporanPermohonan);
         }
 
-        // Ambil daftar nama unik untuk dropdown
         $uniqueNames = PermohonanFaktur::select('nm_wr')
             ->distinct()
             ->pluck('nm_wr');

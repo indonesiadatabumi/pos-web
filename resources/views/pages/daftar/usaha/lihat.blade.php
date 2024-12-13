@@ -71,18 +71,24 @@
             </tr>
             <tr>
                 <th>4.</th>
+                <th>Jenis Retribusi</th>
+                <td>:</td>
+                <td>{{ $usaha->jenis_retribusi->nm_retribusi }}</td>
+            </tr>
+            <tr>
+                <th>5.</th>
                 <th>Alamat Usaha</th>
                 <td>:</td>
                 <td>{{ $usaha->alamat_usaha }}</td>
             </tr>
             <tr>
-                <th>5.</th>
+                <th>6.</th>
                 <th>No HP</th>
                 <td>:</td>
                 <td>{{ $usaha->no_handphone }}</td>
             </tr>
             <tr>
-                <th>6.</th>
+                <th>7.</th>
                 <th>Foto KTP</th>
                 <td>:</td>
                 <td>

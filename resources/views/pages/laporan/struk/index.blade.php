@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'Managed Tables - Buttons')
+@section('title', 'Laporan - Rekap Setor Struk')
 
 @push('css')
 <link href="/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
@@ -23,6 +23,7 @@
 <script src="/assets/plugins/pdfmake/build/vfs_fonts.js"></script>
 <script src="/assets/js/demo/table-manage-default.demo.js"></script>
 <script src="/assets/plugins/jszip/dist/jszip.min.js"></script>
+<script src="/assets/js/demo/table-manage-buttons.demo.js"></script>
 <script src="/assets/plugins/@highlightjs/cdn-assets/highlight.min.js"></script>
 <script src="/assets/js/demo/render.highlight.js"></script>
 <script>
@@ -52,7 +53,7 @@
                                     <td>${billing.daftarUsaha_nama}</td>
                                     <td>${billing.daftarUsaha_alamat}</td>
                                     <td>${billing.ssrd_no_seri}</td>
-                                    <td>${billing.tanggal_rekam}</td>
+                                    <td>${billing.formatted_created_at}</td>
 									<td>${billing.ssrd_no_akhir}</td>
 									<td>${billing.ssrd_jml_lembar}</td>
 									<td>${billing.ssrd_sisa}</td>
@@ -83,6 +84,32 @@
 
 			fetchBillings();
 		});
+		$('#data-table-default').DataTable({
+			responsive: true,
+			dom: '<"row"<"col-sm-5"B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
+			buttons: [{
+					extend: 'copy',
+					className: 'btn-sm'
+				},
+				{
+					extend: 'csv',
+					className: 'btn-sm'
+				},
+				{
+					extend: 'excel',
+					className: 'btn-sm'
+				},
+				{
+					extend: 'pdf',
+					className: 'btn-sm'
+				},
+				{
+					extend: 'print',
+					className: 'btn-sm'
+				}
+			],
+		});
+
 	});
 </script>
 @endpush
@@ -152,7 +179,7 @@
 				</button>
 			</div>
 
-			<div class="panel-body">
+			<div class="panel-body table-responsive">
 				<table id="data-table-buttons" class="table table-striped table-bordered align-middle">
 					<thead>
 						<tr>
@@ -180,9 +207,9 @@
 							<td>{{ $billing->daftarUsaha_nama}}</td>
 							<td>{{ $billing->daftarUsaha_alamat}}</td>
 							<td>{{ $billing->ssrd_no_seri }}</td>
-							<td>{{ $billing->tanggal_rekam}}</td>
-							<td>{{ $billing->ssrd_no_akhir}}</td>
+							<td>{{ $billing->formatted_created_at}}</td>
 							<td>{{ $billing->ssrd_jml_lembar}}</td>
+							<td>{{ $billing->ssrd_no_akhir}}</td>
 							<td>{{ $billing->ssrd_sisa}}</td>
 							<td>{{ $billing->ssrd_nilai_setor}}</td>
 						</tr>

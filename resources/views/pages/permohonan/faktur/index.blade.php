@@ -16,6 +16,19 @@
 <script src="/assets/js/demo/table-manage-responsive.demo.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<!-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectElement = document.getElementById('retribusi');
+            
+            const selectedValue = selectElement.value;
+            console.log("Nilai yang dipilih: " + selectedValue);
+
+            selectElement.addEventListener('change', function() {
+                const selectedValue = selectElement.value;
+                console.log("Nilai yang dipilih: " + selectedValue);
+            });
+        });
+    </script> -->
 @endpush
 
 @section('content')
@@ -96,6 +109,20 @@
                             </div>
                         </div>
 
+                        <div class="form-group row align-items-center mt-3">
+                            <label for="kd_rekening" class="col-sm-3 col-form-label fw-bold">Pilih Retribusi</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-receipt"></i>
+                                    </span>
+                                    <select name="kd_rekening" id="kd_rekening" class="form-control custom-select shadow-sm" required>
+                                        <option value="" selected disabled>-- Pilih Retribusi --</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <div class="card p-3" style="background: #DEE1E6;">
@@ -122,20 +149,14 @@
                                                 id="no_handphone" name="no_handphone"></span></p>
                                     </h5>
 
-                                    <h6>
-                                        <div class="d-flex align-items-center">
-                                            <label class="col-lg-4 col-form-label form-label">Pemilik</label>
-                                            <div class="col-lg-8 d-flex align-items-center">
-                                                <input type="radio" id="perorangan" name="pemilik" value="perorangan" required>
-                                                <label for="perorangan" style="margin-right: 20px;">Perorangan</label>
 
-                                                <input type="radio" id="instansi" name="pemilik" value="instansi" required>
-                                                <label for="instansi">Instansi</label>
-                                            </div>
-                                        </div>
+                                    <h5>
+                                        <p><strong><i class="fas fa-user me-2"></i> Pemilik :</strong> <span
+                                                id="pemilik" name="pemilik"></span></p>
+                                    </h5>
                                 </div>
                             </div>
-                            </h6>
+
 
                             <input type="hidden" id="no_permohonan" name="no_permohonan" value="{{ $nomorPermohonan }}">
                             <input type="hidden" id="nama" name="nama" value="">
@@ -143,6 +164,7 @@
                             <!-- <input type="hidden" id="nik" name="nik" value=""> -->
                             <input type="hidden" id="alamat_usaha" name="alamat_usaha" value="">
                             <input type="hidden" id="no_handphone" name="no_handphone" value="">
+                            <input type="hidden" id="pemilik" name="pemilik" value="">
                             <div class="panel-body mt-4">
                                 <table id="data-table-responsive" class="table table-striped table-bordered align-middle">
                                     <thead>
@@ -199,6 +221,7 @@
         $('#npwrd').change(function() {
             const npwrd = $(this).val();
 
+
             if (npwrd) {
                 $.ajax({
                     url: `{{ url('/permohonan/faktur/get-data') }}/${npwrd}`,
@@ -213,9 +236,10 @@
                             $('#npwrd_display').text(formattedNpwrd);
                             $('#alamat_usaha').text(data.alamat_usaha);
                             $('#no_handphone').text(data.no_handphone);
-                            const pemilik = data.pemilik;
-                            $(`input[name="pemilik"][value="${pemilik}"]`)
-                                .prop('checked', true);
+                            $('#pemilik').text(data.pemilik);
+                            // const pemilik = data.pemilik;
+                            // $(input[name="pemilik"][value="${pemilik}"])
+                            //     .prop('checked', true);
                             //    $('input[name="pemilik"]').prop('enabled', true);
                             $('input[name="no_permohonan"]').val('{{ $nomorPermohonan }}');
                             $('input[name="nama"]').val(data.nama);
@@ -223,21 +247,43 @@
                             // $('input[name="nik"]').val(data.nik);
                             $('input[name="alamat_usaha"]').val(data.alamat_usaha);
                             $('input[name="no_handphone"]').val(data.no_handphone);
+                            $('input[name="pemilik"]').val(data.pemilik);
 
-                            console.log(
-                                `Pemilik yang dipilih: ${pemilik}`);
+                            // console.log(
+                            //     Pemilik yang dipilih: ${pemilik});
+
+
+                            // Sekarang kita ambil data retribusi berdasarkan daftar_id
+                            $.ajax({
+                                url: `{{ url('/permohonan/faktur/retribusi') }}/${data.daftar_id}`, // Kirim daftar_id
+                                method: 'GET',
+                                success: function(retribusiData) {
+                                    if (retribusiData.length > 0) {
+                                        // Membuat opsi dropdown berdasarkan data retribusi yang diterima
+                                        const retribusiOptions = retribusiData.map(item =>
+                                            `<option value="${item.kd_rekening}"> ${item.kd_rekening} - ${item.nm_retribusi}</option>`
+                                        ).join('');
+
+                                        // Menambahkan opsi default pertama jika diperlukan
+                                        $('#kd_rekening').html(`<option value="" selected disabled>-- Pilih Retribusi --</option>  ${retribusiOptions} `);
+                                    } else {
+                                        $('#kd_rekening').html('<option value="" selected disabled>-- Tidak Ada Retribusi --</option>');
+                                    }
+                                },
+                                error: function() {
+                                    $('#kd_rekening').html('<option value="" selected disabled>-- Tidak Ada Retribusi --</option>');
+                                }
+                            });
                         } else {
-                            console.error("Data is empty or undefined");
+                            console.error("Data usaha tidak ditemukan.");
                         }
                     },
                     error: function(jqXHR) {
-                        if (jqXHR.status === 404) {
-                            alert(jqXHR.responseJSON.message);
-                        } else {
-                            console.error("Error occurred: ", jqXHR);
-                        }
+                        console.error("Terjadi kesalahan dalam mengambil data usaha.", jqXHR);
                     }
                 });
+
+
             } else {
                 $('#no_permohonan').text('');
                 $('#nm_wr').text('');
@@ -246,6 +292,7 @@
                 $('#npwrd_display').text('');
                 $('#alamat_usaha').text('');
                 $('#no_handphone').text('');
+                $('#pemilik').text('');
 
                 $('input[name="no_permohonan"]').val('');
                 $('input[name="nm_wr"]').val('');
@@ -253,41 +300,51 @@
                 // $('input[name="nik"]').val('');
                 $('input[name="alamat_usaha"]').val('');
                 $('input[name="no_handphone"]').val('');
-                $('input[name="pemilik"]').prop('checked', false);
+                $('input[name="pemilik"]').val('');
             }
         });
+    });
 
+    $('#permohonanForm').submit(function(e) {
+        e.preventDefault();
 
-        $('#permohonanForm').submit(function(e) {
-            e.preventDefault();
+        // const retribusi = $('#kd_rekening').val();
+        // if (!retribusi) {
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Oops...',
+        //         text: 'Harap pilih Retribusi yang valid!',
+        //     });
+        //     return; // Mencegah form untuk disubmit
+        // }
 
-            if (this.checkValidity() === false) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Harap lengkapi semua data yang diperlukan!',
-                });
-            } else {
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: "Data akan disimpan.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, simpan!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        this.submit();
-                    }
-                });
-            }
-        });
+        if (this.checkValidity() === false) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Harap lengkapi semua data yang diperlukan!',
+            });
+        } else {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Data akan disimpan.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, simpan!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
+        }
+    });
 
-        $('#addRow').click(function() {
-            const rowCount = $('#data-table-responsive tbody tr').length + 1;
-            const newRow = `
+    $('#addRow').click(function() {
+        const rowCount = $('#data-table-responsive tbody tr').length + 1;
+        const newRow = `
             <tr>
                 <td>${rowCount}.</td>
                 <td><input type="text" id="no_seri_${rowCount}" name="no_seri[]" class="form-control" placeholder="Masukkan No Seri" required></td>
@@ -301,48 +358,48 @@
         `;
 
 
-            $('#data-table-responsive tbody').append(newRow);
-        });
-
-
-        $(document).on('input', '[id^="no_awal_"], [id^="no_akhir_"]', function() {
-            const row = $(this).closest('tr');
-            const noAwal = parseInt(row.find('input[name^="no_awal"]').val()) || 0;
-            const noAkhir = parseInt(row.find('input[name^="no_akhir"]').val()) || 0;
-            const jumlahLembar = noAkhir >= noAwal ? (noAkhir - noAwal + 1) : 0;
-            row.find('input[name^="jml_lembar"]').val(jumlahLembar);
-        });
-
-        $(document).on('input', '[id^="jml_lembar_"], [id^="tarif_"]', function() {
-            const row = $(this).closest('tr');
-            const jmlLembar = parseInt(row.find('input[name^="jml_lembar"]').val()) || 0;
-            const tarif = parseInt(row.find('input[name^="tarif"]').val()) || 0;
-            const total = jmlLembar * tarif;
-            row.find('input[name^="total"]').val(total);
-        });
-
-
-        function resetForm() {
-            $('#npwrd').val('');
-            $('#nm_wr').text('');
-            $('#nama').text('');
-            // $('#nik').text('');
-            $('#npwrd_display').text('');
-            $('#alamat_usaha').text('');
-            $('#no_handphone').text('');
-            $('input[name="pemilik"]').prop('checked', false).prop('disabled', false);
-        }
-
-
-        $('button[type="reset"]').click(function(e) {
-            e.preventDefault();
-            resetForm();
-        });
-
-        function formatNpwrd(npwrd) {
-            return `R.${npwrd.charAt(1)}${npwrd.substring(2)}`;
-        }
+        $('#data-table-responsive tbody').append(newRow);
     });
+
+
+    $(document).on('input', '[id^="no_awal_"], [id^="no_akhir_"]', function() {
+        const row = $(this).closest('tr');
+        const noAwal = parseInt(row.find('input[name^="no_awal"]').val()) || 0;
+        const noAkhir = parseInt(row.find('input[name^="no_akhir"]').val()) || 0;
+        const jumlahLembar = noAkhir >= noAwal ? (noAkhir - noAwal + 1) : 0;
+        row.find('input[name^="jml_lembar"]').val(jumlahLembar);
+    });
+
+    $(document).on('input', '[id^="jml_lembar_"], [id^="tarif_"]', function() {
+        const row = $(this).closest('tr');
+        const jmlLembar = parseInt(row.find('input[name^="jml_lembar"]').val()) || 0;
+        const tarif = parseInt(row.find('input[name^="tarif"]').val()) || 0;
+        const total = jmlLembar * tarif;
+        row.find('input[name^="total"]').val(total);
+    });
+
+
+    function resetForm() {
+        $('#npwrd').val('');
+        $('#nm_wr').text('');
+        $('#nama').text('');
+        // $('#nik').text('');
+        $('#npwrd_display').text('');
+        $('#alamat_usaha').text('');
+        $('#no_handphone').text('');
+        $('#pemilik').text('');
+        // $('input[name="pemilik"]').prop('checked', false).prop('disabled', false);
+    }
+
+
+    $('button[type="reset"]').click(function(e) {
+        e.preventDefault();
+        resetForm();
+    });
+
+    function formatNpwrd(npwrd) {
+        return `R.${npwrd.charAt(1)}${npwrd.substring(2)}`;
+    }
 </script>
 
 @endsection

@@ -125,7 +125,7 @@
             <div class="right-align">
                 <p>
                     <b>No Permohonan:</b> {{ $permohonan->no_permohonan }}<br>
-                    <b>Tanggal Permohonan:</b> {{ \Carbon\Carbon::parse($permohonan->tanggal_permohonan)->format('d-m-Y') }}<br>
+                    <b>Tanggal Permohonan:</b> {{ \Carbon\Carbon::parse($permohonan->formatted_created_at)->format('d-m-Y') }}<br>
                     <b>Status:</b> {{ $permohonan->status }}
                 </p>
                 <p>Date: {{ now()->addHours(7)->format('Y/m/d H:i:s') }}</p>

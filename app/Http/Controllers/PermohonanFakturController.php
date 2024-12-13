@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\PermohonanFaktur;
 use App\Models\DaftarUsaha;
 use Illuminate\Http\Request;
+use App\Models\DetilJenisRetribusiUsaha;
+use App\Models\JenisRetribusi;
 use App\Models\PermohonanFakturDetil;
 
 class PermohonanFakturController extends Controller
@@ -30,10 +32,19 @@ class PermohonanFakturController extends Controller
         $daftarUsaha = DaftarUsaha::where('npwrd', $npwrd)->first();
 
         if ($daftarUsaha) {
-            return response()->json($daftarUsaha);
+            return response()->json([
+                'no_permohonan' => $daftarUsaha->no_permohonan,
+                'nm_wr' => $daftarUsaha->nm_wr,
+                'nama' => $daftarUsaha->nama,
+                'npwrd' => $daftarUsaha->npwrd,
+                'alamat_usaha' => $daftarUsaha->alamat_usaha,
+                'no_handphone' => $daftarUsaha->no_handphone,
+                'pemilik' => $daftarUsaha->pemilik,
+                'daftar_id' => $daftarUsaha->id
+            ]);
+        } else {
+            return response()->json(['message' => 'Data usaha tidak ditemukan.'], 404);
         }
-
-        return response()->json(['message' => 'Data tidak ditemukan.'], 404);
     }
 
     public function store(Request $request)
@@ -47,6 +58,8 @@ class PermohonanFakturController extends Controller
             'alamat_usaha' => 'required|string|max:255',
             'no_handphone' => 'required|digits_between:10,15',
             'pemilik' => 'required|string|max:255',
+            'kd_rekening' => 'required|string|max:20',
+
 
             // Validate as array inputs
             'no_seri' => 'required|array',
@@ -73,6 +86,7 @@ class PermohonanFakturController extends Controller
                 'alamat_usaha' => $request->alamat_usaha,
                 'no_handphone' => $request->no_handphone,
                 'pemilik' => $request->pemilik,
+                'kd_rekening' => $request->kd_rekening,
             ]);
 
             foreach ($request->no_seri as $index => $noSeri) {
@@ -93,5 +107,18 @@ class PermohonanFakturController extends Controller
         }
 
         return redirect()->route('pages.permohonan.faktur.index')->with('success', 'Data berhasil disimpan!');
+    }
+    public function getRetribusiByNpwrd($daftar_id)
+    {
+
+        $retribusi = DetilJenisRetribusiUsaha::where('daftar_id', $daftar_id)->get();
+
+        if ($retribusi->isNotEmpty()) {
+            $kdRekeningList = $retribusi->pluck('kd_rekening');
+            $retribusi = JenisRetribusi::whereIn('kd_rekening', $kdRekeningList)->get(['kd_rekening', 'nm_retribusi']);
+            return response()->json($retribusi);
+        } else {
+            return response()->json([], 404);
+        }
     }
 }

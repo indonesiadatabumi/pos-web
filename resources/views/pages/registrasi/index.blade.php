@@ -99,6 +99,24 @@
                         </div>
                     </div>
 
+                    <div class="form-group row mb-3" id="jenisRetribusiRow" style="display: none;">
+                        <label for="kd_rekening" class="col-lg-4 col-form-label form-label">Pilih Jenis Retribusi</label>
+                        <div class="col-lg-8">
+                            <select name="kd_rekening" id="kd_rekening" class="form-control select-auto-width">
+                                <option value="" disable selected>--- Pilih Jenis Retrisbusi ---</option>
+                                <option value="41201">Retribusi Jasa Umum</option>
+                                <option value="41202">Retribusi Jasa Usaha</option>
+                                <option value="41203">Retribusi Perizinan Tertentu</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3" id="jenisRetribusiCheckboxRow" style="display: none;">
+                        <label for="retribusi_checkbox" class="col-lg-4 col-form-label form-label">Pilih Item</label>
+                        <div class="col-lg-8" id="retribusiCheckboxContainer">
+                            <!-- Checkbox akan muncul di sini -->
+                        </div>
+                    </div>
 
                     <div class="panel-body">
                         <div class="form-group row mb-3">
@@ -111,7 +129,7 @@
                         <div class="form-group row mb-3">
                             <label class="col-lg-4 col-form-label form-label" for="kota">Kota</label>
                             <div class="col-lg-8">
-                                <input type="text" class="form-control-registrasi" id="kota" name="kota" value="Bekasi" readonly />
+                                <input type="text" class="form-control-registrasi" id="kota" name="kota" value="Kutai Kartanegara" readonly />
                             </div>
                         </div>
 
@@ -146,7 +164,7 @@
                                 <div class="col-sm-1 me-3"><input class="form-control-1 text-center" type="text"
                                         id="npwrd1" name="npwrd1" maxlength="1" required readonly /></div>
                                 <div class="col-sm-1 me-3"><input class="form-control-1 text-center" type="text"
-                                        id="npwrd2" name="npwrd2" maxlength="2" required readonly /></div>
+                                        id="npwrd2" name="npwrd2" maxlength="4" required readonly /></div>
                                 <div class="col-sm-2 me-3"><input class="form-control-2 text-center" type="text"
                                         id="npwrd3" name="npwrd3" maxlength="4" required readonly /></div>
                                 <!-- <div class="col-sm-2 me-3"><input class="form-control-2 text-center" type="text"
@@ -224,10 +242,298 @@
                 $('#npwrd1').val('R');
                 $('#jenisWajibPajakRow').hide();
                 $('#pemilikRow').show();
+                $('#jenisRetribusiRow').show();
             } else {
                 $('#npwrd1').val('');
                 $('#jenisWajibPajakRow').show();
                 $('#pemilikRow').hide();
+                $('#jenisRetribusiRow').hide();
+            }
+        });
+        $('#kd_rekening').change(function() {
+            const selectedValue = $(this).val();
+            const checkboxContainer = $('#retribusiCheckboxContainer');
+
+            checkboxContainer.empty();
+
+            if (selectedValue) {
+                $('#jenisRetribusiCheckboxRow').show();
+                if (selectedValue === '41201') {
+                    checkboxContainer.append(`
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120101">
+                        <label class="form-check-label" >Retribusi Pelayanan Kesehatan - Puskesmas</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120104">
+                        <label class="form-check-label" >Retribusi Pelayanan Kesehatan - Balai Pengobatan</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120105">
+                        <label class="form-check-label" >Retribusi Pelayanan Kesehatan - Laboratorium Kesehatan Masyarakat / Labkesda</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120106">
+                        <label class="form-check-label" >Retribusi Pelayanan Kesehatan Tempat Pelayanan Kesehatan Lainnya yang Sejenis yang Dimiliki dan / atau Dikelola oleh Pemda</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120107">
+                        <label class="form-check-label" >Retribusi Pelayanan Persampahan / Kebersihan</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120118">
+                        <label class="form-check-label" >Retribusi Sewa Tempat Pemakaman atau Pembakaran / Pengabuan Mayat</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120119">
+                        <label class="form-check-label" >Retribusi Pelayanan Parkir Di Tepi Jalan Umum</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120125">
+                        <label class="form-check-label" >Retribusi PKB - Mobil Penumpang</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120127">
+                        <label class="form-check-label" >Retribusi PKB - Mobil Bus</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120128">
+                        <label class="form-check-label" >Retribusi PKB - Mobil Barang</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120137">
+                        <label class="form-check-label" >Retribusi Pelayanan Pemeriksaan dan / atau Pengujian Alat Pemadam Kebakaran</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120138">
+                        <label class="form-check-label" >Retribusi Alat Penanggulangan Kebakaran</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120147">
+                        <label class="form-check-label" >Retribusi Pengendalian Menara Telekomunikasi</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120148">
+                        <label class="form-check-label" >Retribusi Pelayanan Tera / Tera Ulang</label>
+                    </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120151">
+                        <label class="form-check-label" >Retribusi Promosi Ikan Hias</label>
+                    </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120152">
+                        <label class="form-check-label" >Retribusi Sewa Rumah Susun</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120120">
+                        <label class="form-check-label" >Retribusi Pelayanan Pasar</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="41201991">
+                        <label class="form-check-label" >Retribusi Parkir Pasar</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="41201053">
+                        <label class="form-check-label" >Retribusi Pemeriksaan Fungsi Ginjal</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120108">
+                        <label class="form-check-label" >Retribusi Layanan Jasa pemeriksaan untuk maksud Tertentu</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120109">
+                        <label class="form-check-label" >Retribusi Jasa Tindakan Medis</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120110">
+                        <label class="form-check-label" >Retribusi Pemeriksaan Laboratorium</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120111">
+                        <label class="form-check-label" >Jasa Pemeriksaan untuk Persyaratan PNS</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120112">
+                        <label class="form-check-label" >Jasa pemeriksaan Laboratorium</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120113">
+                        <label class="form-check-label" >Pelayanan Gigi di Puskesmas</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120114">
+                        <label class="form-check-label" >Rawat Inap perhari</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120115">
+                        <label class="form-check-label" >Pemeriksaan Limbah Cair Rumah Sakit</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120116">
+                        <label class="form-check-label" >Pemeriksaan Air Kolam</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120123">
+                        <label class="form-check-label" >Persalinan Spontan Bidan</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120121">
+                        <label class="form-check-label" >Persalinan Dokter Umum</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120122">
+                        <label class="form-check-label" >Pemeriksaan Kimia Fisika Air Bersih, Kimia Fisika Air Minum</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120150">
+                        <label class="form-check-label" >Retribusi Pengujian LAB</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="41201191">
+                        <label class="form-check-label" >Retribusi Pelayanan Parkir Di Tepi Jalan Umum (Motor)</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="41201192">
+                        <label class="form-check-label" >Retribusi Pelayanan Parkir Di Tepi Jalan Umum (Sedan, Jeep, Minibus, Pickup dan Sejenisnya))</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="41201193">
+                        <label class="form-check-label" >Retribusi Pelayanan Parkir Di Tepi Jalan Umum (Bus, Truck dan Sejenisnya))</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120124">
+                        <label class="form-check-label" >Retribusi Pelayanan Sampah Pasar</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120153">
+                        <label class="form-check-label" >Retribusi Pelayanan Pasar - Kios</label>
+                    </div>
+                `);
+                } else if (selectedValue === '41202') {
+                    checkboxContainer.append(`
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120201">
+                        <label class="form-check-label" >Retribusi Pemakaian Kekayaan Daerah - Penyewaan Tanah dan Bangunan</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120204">
+                        <label class="form-check-label" >Retribusi Pemakaian Kekayaan Daerah - Kendaraan Bermotor (kereta jenazah)</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120213">
+                        <label class="form-check-label" >Retribusi Terminal - Penyediaan Tempat Parkir Kendaraan Angkutan</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120224">
+                        <label class="form-check-label" >Retribusi Pelayanan Tempat Olahraga</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="41202701">
+                        <label class="form-check-label" >Retribusi Rumah Potong Hewan</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="41202311">
+                        <label class="form-check-label" >Retribusi TPHS</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="41202312">
+                        <label class="form-check-label" >Retribusi Sewa kandang</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120233">
+                        <label class="form-check-label" >Retribusi Pemotongan Domba/Kambing</label>
+                    </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120214">
+                        <label class="form-check-label" >Retribusi Terminal - Tempat Usaha</label>
+                    </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120215">
+                        <label class="form-check-label" >Retribusi Terminal - Elf</label>
+                    </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120216">
+                        <label class="form-check-label" >Retribusi Terminal - Bus Kota Ekonomi</label>
+                    </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120217">
+                        <label class="form-check-label" >Retribusi Terminal - AKAP/AKDP Ekonomi</label>
+                    </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120218">
+                        <label class="form-check-label" >Retribusi Terminal - Angkot</label>
+                    </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120226">
+                        <label class="form-check-label" >Retribusi Parkir Inap</label>
+                    </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120205">
+                        <label class="form-check-label" >Retribusi Pemakaian Kekayaan Daerah - Kendaraan Bermotor (crane)</label>
+                    </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120202">
+                        <label class="form-check-label" >Retribusi Pemakaian Kekayaan Daerah - Sewa Panggung Reklame</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120206">
+                        <label class="form-check-label" >Retribusi Pemakaian Kekayaan Daerah - PSU Terminal Dishub</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="41202171">
+                        <label class="form-check-label" >Retribusi Terminal - AKAP/AKDP Non Ekonomi</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="41202161">
+                        <label class="form-check-label" >Retribusi Terminal - Bus Kota Non Ekonomi</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120219">
+                        <label class="form-check-label" >Retribusi Terminal - Mobil Penumpang Pribadi / Pickup</label>
+                    </div>
+                `);
+                } else if (selectedValue === '41203') {
+                    checkboxContainer.append(`
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox"  name="retribusi_details[]" value="4120301">
+                        <label class="form-check-label" >Ijin Mendirikan Bangunan</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120305">
+                        <label class="form-check-label" >Izin Trayek Lokal Perpanjangan Kartu Pengawasan</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120312">
+                        <label class="form-check-label" >Retribusi Pemberian Perpanjangan IMTA</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120302">
+                        <label class="form-check-label" >Retribusi Bill Restoran</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120310">
+                        <label class="form-check-label" >Retribusi Pertandingan Olah Raga</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="41203001">
+                        <label class="form-check-label" >Retribusi Bill Hotel</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="41203003">
+                        <label class="form-check-label" >Retribusi Bill Hiburan</label>
+                    </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="4120306">
+                        <label class="form-check-label" >Izin Trayek Lintas Daerah Perpanjangan Kartu Pengawasan</label>
+                    </div>
+                     <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="retribusi_details[]" value="41203011">
+                        <label class="form-check-label" >Persetujuan Bangunan Gedung</label>
+                    </div>
+                `);
+                }
+            } else {
+                $('#jenisRetribusiCheckboxRow').hide();
             }
         });
 
@@ -315,7 +621,7 @@
     //     }
 
 
-    //     const npwrd = ($('#pajak').is(':checked') ? `R` : `S`) + year + month + numericPart.toString().padStart(6, '0');
+    //     const npwrd = ($('#pajak').is(':checked') ? R : S) + year + month + numericPart.toString().padStart(6, '0');
 
 
     //     $('#npwrd1').val(npwrd.substring(0, 1));

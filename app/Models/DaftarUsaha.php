@@ -14,8 +14,7 @@ class DaftarUsaha extends Model
     public function permohonanFaktur()
     {
         return $this->hasMany(PermohonanFaktur::class, 'no_permohonan', 'no_permohonan');
-    
-}
+    }
 
 
     protected $fillable = [
@@ -25,6 +24,7 @@ class DaftarUsaha extends Model
         'nm_wr',
         'nama',
         'email',
+        'kd_rekening',
         'kota',
         'foto',
         'kd_kelurahan',
@@ -36,18 +36,24 @@ class DaftarUsaha extends Model
         // 'no_rekening',
         'alamat_usaha',
         'pemilik',
-        'tanggal_terdaftar',
     ];
 
-    protected $casts = [
-        'tanggal_terdaftar' => 'datetime',
-    ];
 
-    public function kecamatan() {
+    public function kecamatan()
+    {
         return $this->belongsTo(Kecamatan::class, 'kd_kecamatan', 'kd_kecamatan');
     }
 
-    public function kelurahan() {
+    public function kelurahan()
+    {
         return $this->belongsTo(Kelurahan::class, 'kd_kelurahan', 'kd_kelurahan');
+    }
+    public function jenis_retribusi()
+    {
+        return $this->belongsTo(JenisRetribusi::class, 'kd_rekening', 'kd_rekening');
+    }
+    public function detilRetribusi()
+    {
+        return $this->hasMany(DetilJenisRetribusiUsaha::class, 'daftar_id', 'id');
     }
 }

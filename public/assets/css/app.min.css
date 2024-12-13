@@ -11225,7 +11225,7 @@ textarea.form-control-lg {
   white-space: nowrap !important;
   overflow: hidden;
 }
-.table-responsive {
+/* .table-responsive {
   overflow-x: scroll;   
   -webkit-overflow-scrolling: touch;  
   margin-bottom: 1rem;
@@ -11234,7 +11234,7 @@ textarea.form-control-lg {
 .table-responsive table {
   width: 100%; 
   table-layout: fixed; 
-}
+} */
 
 th, td {
   white-space: nowrap; 
@@ -36587,4 +36587,9 @@ input:checked + .slider:before {
 .stat-card-link:hover {
     background-color: #f0f0f0; 
     cursor: pointer; 
+}
+
+.select-auto-width {
+  width: auto;
+  min-width: 200px;
 }

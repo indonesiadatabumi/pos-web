@@ -182,7 +182,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="content" class="form-labe">Konten</label>
+                                <label for="content" class="form-label">Konten</label>
                                 <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
                             </div>
 
@@ -202,92 +202,94 @@
         </div>
         <br>
         <br>
-        <table id="data-table-default" class="table table-striped table-bordered align-middle">
-            <thead>
-                <tr>
-                    <th width="1%">No.</th>
-                    <th class="text-nowrap">Judul</th>
-                    <th class="text-nowrap">Isi Konten</th>
-                    <th class="text-nowrap">Gambar</th>
-                    <th class="text-nowrap" width="12%">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="table-responsive">
+            <table id="data-table-default" class="table table-striped table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th width="1%">No.</th>
+                        <th class="text-nowrap">Judul</th>
+                        <th class="text-nowrap">Isi Konten</th>
+                        <th class="text-nowrap">Gambar</th>
+                        <th class="text-nowrap" width="12%">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                @foreach ($news as $key => $item)
-                <tr class="{{ $key % 2 == 0 ? 'odd' : 'even' }} gradeX">
-                    <td class="fw-bold text-dark">{{ $key + 1 }}</td>
-                    <td>{{ $item->title }}</td>
-                    <td>{!! nl2br(e($item->content)) !!}
-                    </td>
-                    <td>
-                        @if($item->image)
-                        <img src="{{ asset('storage/image/' . $item->image) }}" width="50" alt="Gambar Berita">
-                        @else
-                        <span>Tidak ada gambar</span>
-                        @endif
-                    </td>
-                    <td>
-                        <button class="btn btn-primary btn-sm me-2"
-                            data-bs-toggle="modal"
-                            data-bs-target="#editBeritaModal"
-                            data-id="{{ $item->id }}"
-                            data-title="{{ $item->title }}"
-                            data-content="{{ $item->content }}"
-                            data-image="{{ $item->image }}">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        <form action="{{ route('news.destroy', $item->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm me-2">
-                                <i class="fa fa-trash"></i> Delete
+                    @foreach ($news as $key => $item)
+                    <tr class="{{ $key % 2 == 0 ? 'odd' : 'even' }} gradeX">
+                        <td class="fw-bold text-dark">{{ $key + 1 }}</td>
+                        <td>{{ $item->title }}</td>
+                        <td>{!! nl2br(e($item->content)) !!}
+                        </td>
+                        <td>
+                            @if($item->image)
+                            <img src="{{ asset('storage/image/' . $item->image) }}" width="50" alt="Gambar Berita">
+                            @else
+                            <span>Tidak ada gambar</span>
+                            @endif
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-sm me-2"
+                                data-bs-toggle="modal"
+                                data-bs-target="#editBeritaModal"
+                                data-id="{{ $item->id }}"
+                                data-title="{{ $item->title }}"
+                                data-content="{{ $item->content }}"
+                                data-image="{{ $item->image }}">
+                                <i class="fas fa-edit"></i> Edit
                             </button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-                <!-- Modal Edit -->
-                <div class="modal fade" id="editBeritaModal" tabindex="-1" aria-labelledby="editBeritaModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editBeritaModalLabel">Edit Berita</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="editBeritaForm">
-                                    @csrf
-                                    @method('PUT') <!-- Pastikan ini ada -->
-                                    <input type="hidden" id="edit_berita_id" name="berita_id">
-                                    <div class="mb-3">
-                                        <label for="edit_title" class="form-label">Title</label>
-                                        <input type="text" class="form-control" id="edit_title" name="title" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="edit_content" class="form-label">Content</label>
-                                        <textarea class="form-control" id="edit_content" name="content" rows="5" required></textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="edit_image" class="form-label">Gambar (opsional)</label>
-                                        <input type="file" class="form-control-file" id="edit_image" name="image" accept="image/*">
-                                    </div>
-                                    <div class="mb-3">
-                                        <img id="currentImage" src="" alt="Gambar Berita" style="max-width: 100%; height: auto; display: none;">
-                                        <span id="noImageMessage" style="display: none;">Tidak ada gambar</span>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                                    </div>
-                                </form>
-                            </div>
+                            <form action="{{ route('news.destroy', $item->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm me-2">
+                                    <i class="fa fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                    <!-- Modal Edit -->
+                    <div class="modal fade" id="editBeritaModal" tabindex="-1" aria-labelledby="editBeritaModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editBeritaModalLabel">Edit Berita</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="editBeritaForm">
+                                        @csrf
+                                        @method('PUT') <!-- Pastikan ini ada -->
+                                        <input type="hidden" id="edit_berita_id" name="berita_id">
+                                        <div class="mb-3">
+                                            <label for="edit_title" class="form-label">Title</label>
+                                            <input type="text" class="form-control" id="edit_title" name="title" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="edit_content" class="form-label">Content</label>
+                                            <textarea class="form-control" id="edit_content" name="content" rows="5" required></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="edit_image" class="form-label">Gambar (opsional)</label>
+                                            <input type="file" class="form-control-file" id="edit_image" name="image" accept="image/*">
+                                        </div>
+                                        <div class="mb-3">
+                                            <img id="currentImage" src="" alt="Gambar Berita" style="max-width: 100%; height: auto; display: none;">
+                                            <span id="noImageMessage" style="display: none;">Tidak ada gambar</span>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                        </div>
+                                    </form>
+                                </div>
 
+                            </div>
                         </div>
                     </div>
-                </div>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
     <!-- END panel-body -->
     <!-- BEGIN hljs-wrapper -->

@@ -45,6 +45,7 @@
 <script src="/assets/plugins/pdfmake/build/pdfmake.min.js"></script>
 <script src="/assets/plugins/pdfmake/build/vfs_fonts.js"></script>
 <script src="/assets/plugins/jszip/dist/jszip.min.js"></script>
+<script src="/assets/js/demo/table-manage-buttons.demo.js"></script>
 <script src="/assets/plugins/@highlightjs/cdn-assets/highlight.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="/assets/js/demo/render.highlight.js"></script>
@@ -109,6 +110,34 @@
 
             fetchData();
         });
+        $('#data-table-default').DataTable({
+            responsive: true,
+            dom: '<"row"<"col-sm-5"B><"col-sm-7"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>',
+            buttons: [{
+                    extend: 'copy',
+                    className: 'btn-sm'
+                },
+                {
+                    extend: 'csv',
+                    className: 'btn-sm'
+                },
+                {
+                    extend: 'excel',
+                    className: 'btn-sm'
+                },
+                {
+                    extend: 'pdf',
+                    className: 'btn-sm'
+                },
+                {
+                    extend: 'print',
+                    className: 'btn-sm'
+                }
+            ],
+        });
+
+
+
     });
 </script>
 

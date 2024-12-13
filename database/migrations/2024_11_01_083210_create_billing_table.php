@@ -27,8 +27,8 @@ class CreateBillingTable extends Migration
             $table->integer('ssrd_sisa');
             $table->integer('ssrd_tarif');
             $table->integer('ssrd_nilai_setor');
-            $table->string('metode_bayar');
-            $table->timestamp('tanggal_rekam');
+            // $table->string('metode_bayar');
+            // $table->timestamp('tanggal_rekam');
             $table->enum('status', ['Menunggu', 'Lunas']);
             $table->timestamps();
             $table->foreign('npwrd')->references('npwrd')->on('daftar_usaha')->onDelete('cascade')->onUpdate('cascade');

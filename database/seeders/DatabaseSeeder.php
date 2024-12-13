@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -17,6 +18,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            JenisRetribusiSeeder::class,
             KecamatanSeeder::class,
             KelurahanSeeder::class,
             MenusSeeder::class,
@@ -24,7 +26,5 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             UserSeeder::class,
         ]);
-
-    
     }
 }

@@ -53,7 +53,7 @@
                                     <td>${billing.daftarUsaha_alamat}</td>
                                     <td>${billing.id_billing}</td>
                                     <td>${billing.ssrd_nilai_setor}</td>
-                                    <td>${billing.tanggal_rekam}</td>
+                                    <td>${billing.formatted_created_at}</td>
                                     <td>
                                     <a href="{{ url('prn-ba-lap/' . '${billing.id}') }}" target="_blank" class="btn btn-warning btn-sm">
                                         <i class="fa fa-print"></i> Cetak
@@ -162,7 +162,7 @@
 
             <!-- BEGIN panel-heading -->
             <!-- BEGIN panel-body -->
-            <div class="panel-body">
+            <div class="panel-body table-responsive">
                 <table id="data-table-buttons" class="table table-striped table-bordered align-middle">
                     <thead>
                         <tr>
@@ -188,7 +188,7 @@
                             <td>{{ $billing->daftarUsaha_alamat}}</td>
                             <td>{{ $billing->id_billing }}</td>
                             <td>{{ $billing->ssrd_nilai_setor}}</td>
-                            <td>{{ $billing->tanggal_rekam}}</td>
+                            <td>{{ $billing->formatted_created_at}}</td>
                             <td>
                                 <a href="{{ url('prn-ba-lap/' . $billing->id) }}" target="_blank" class="btn btn-warning btn-sm">
                                     <i class="fa fa-print"></i> Cetak

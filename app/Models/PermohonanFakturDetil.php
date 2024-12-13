@@ -18,10 +18,15 @@ class PermohonanFakturDetil extends Model
         'jml_lembar',
         'tarif',
         'total',
-        'no_permohonan'
+        'no_permohonan',
+        'status',
     ];
     public function permohonan()
     {
         return $this->belongsTo(PermohonanFaktur::class, 'no_permohonan', 'no_permohonan');
+    }
+    public function billing()
+    {
+        return $this->belongsTo(Billing::class, 'npwrd', 'npwrd');
     }
 }

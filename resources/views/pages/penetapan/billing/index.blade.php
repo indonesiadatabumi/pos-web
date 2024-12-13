@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'Tabel Terkelola')
+@section('title', 'Daftar Penetapan Billing')
 
 @push('css')
 <link href="/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
@@ -63,7 +63,7 @@
 	@php
 	$userRoleId = auth()->user()->role_id;
 	@endphp
-	<div class="panel-body">
+	<div class="panel-body table-responsive">
 		<table id="data-table-default" class="table table-striped table-bordered align-middle">
 			<thead>
 				<tr>
@@ -74,6 +74,7 @@
 					<th class="text-nowrap">TAHUN PAJAK</th>
 					<th class="text-nowrap">TANGGAL REKAM</th>
 					<th class="text-nowrap">STATUS</th>
+					<th class="text-nowrap" width="1%">PEMBAYARAN</th>
 					<th class="text-nowrap" width="1%">AKSI</th>
 
 				</tr>
@@ -109,8 +110,13 @@
 					<td>{{ $billing->daftarUsaha->nama ?? '-' }}</td>
 					<td>{{ $billing->id_billing }}</td>
 					<td>{{ \Carbon\Carbon::parse($billing->created_at)->format('Y') }}</td>
-					<td>{{ $billing->tanggal_rekam }}</td>
+					<td>{{ $billing->created_at }}</td>
 					<td>{{ $billing->status }}</td>
+					<td>
+						<a class="btn btn-warning btn-sm">
+							<i class="fa-solid fa-cash-register"></i>
+						</a>
+					</td>
 					<td>
 						<a href="{{ route('billing.cetak', $billing->id) }}" class="btn btn-success btn-sm">
 							<i class="fas fa-edit"></i>
