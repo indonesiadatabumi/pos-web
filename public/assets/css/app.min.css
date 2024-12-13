@@ -2120,6 +2120,8 @@ progress {
   margin-bottom: 0.9375rem;
   vertical-align: top;
   border-color: var(--bs-table-border-color);
+  word-wrap: break-word;
+  word-break: break-word;
 }
 .table > :not(caption) > * > * {
   padding: 0.5rem 0.5rem;
@@ -11223,7 +11225,6 @@ textarea.form-control-lg {
 
 .text-nowrap {
   white-space: nowrap !important;
-  overflow: hidden;
 }
 /* .table-responsive {
   overflow-x: scroll;   
@@ -11234,7 +11235,7 @@ textarea.form-control-lg {
 .table-responsive table {
   width: 100%; 
   table-layout: fixed; 
-} */
+}*/
 
 th, td {
   white-space: nowrap; 

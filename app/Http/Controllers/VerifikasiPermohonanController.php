@@ -14,16 +14,15 @@ class VerifikasiPermohonanController extends Controller
     public function index()
     {
         $permohonan = PermohonanFaktur::rightJoin('permohonan_faktur_detil', 'permohonan_faktur.no_permohonan', '=', 'permohonan_faktur_detil.no_permohonan')
+            ->leftJoin('jenis_retribusi', 'permohonan_faktur.kd_rekening', '=', 'jenis_retribusi.kd_rekening')
             ->select(
-                'permohonan_faktur.id as permohonan_faktur_id',
-                'permohonan_faktur_detil.id as permohonan_faktur_detil_id',
                 'permohonan_faktur.*',
-                'permohonan_faktur_detil.*'
+                'permohonan_faktur_detil.*',
+                'jenis_retribusi.nm_retribusi'
             )
             ->orderByRaw("FIELD(status, 'Menunggu', 'Diterima', 'Ditolak')")
             ->get();
 
-        // dd($permohonan);
         return view('pages.verifikasi.permohonan.index', compact('permohonan'));
     }
 

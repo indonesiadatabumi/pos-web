@@ -10,7 +10,7 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $news = News::all();
+        $news = News::orderBy('id', 'desc')->get();
         return view('pages.manajemen-berita', compact('news'));
     }
 
@@ -27,6 +27,7 @@ class NewsController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status_aktif' => 'required|integer|in:0,1',
         ]);
 
         $imagePath = null;
@@ -41,6 +42,7 @@ class NewsController extends Controller
                 'title' => $request->title,
                 'content' => $request->content,
                 'image' => $imagePath,
+                'status_aktif' => $request->status_aktif,
             ]);
         } catch (\Exception $e) {
             return back()->withErrors([
@@ -57,6 +59,7 @@ class NewsController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status_aktif' => 'required|integer|in:0,1',
         ]);
 
         $news = News::findOrFail($id);
@@ -73,11 +76,24 @@ class NewsController extends Controller
             'title' => $request->title,
             'content' => $request->content,
             'image' => $imagePath,
+            'status_aktif' => $request->status_aktif,
         ]);
 
         $news->save();
 
         return redirect()->back()->with('success', 'Berita berhasil diperbarui!');
+    }
+    public function toggleStatus($id, Request $request)
+    {
+        try {
+            $news = News::findOrFail($id);
+            $news->status_aktif = $request->status_aktif;
+            $news->save();
+
+            return response()->json(['message' => 'Status berhasil diubah.']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Terjadi kesalahan saat mengubah status.'], 500);
+        }
     }
 
 
@@ -91,6 +107,6 @@ class NewsController extends Controller
 
         $news->delete();
 
-        return response()->json(['success' => 'Berita berhasil dihapus!']);
+        return redirect()->back()->with('success', 'berita berhasil dihapus!');
     }
 }
