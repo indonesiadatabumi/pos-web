@@ -14,13 +14,15 @@ class DaftarUsahaController extends Controller
 {
     public function index()
     {
-        $daftarUsaha = DaftarUsaha::latest()->get();
+        $daftarUsaha = DaftarUsaha::with('jenis_retribusi')->get();
+
         return view('pages.daftar.usaha.index', compact('daftarUsaha'));
     }
 
     public function lihat($id)
     {
-        $usaha = DaftarUsaha::findOrFail($id);
+        $usaha = DaftarUsaha::with('jenis_retribusi')->findOrFail($id);
+
         return view('pages.daftar.usaha.lihat', compact('usaha'));
     }
 

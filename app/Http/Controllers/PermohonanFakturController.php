@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\DetilJenisRetribusiUsaha;
 use App\Models\JenisRetribusi;
 use App\Models\PermohonanFakturDetil;
+use Illuminate\Support\Facades\Log;
 
 class PermohonanFakturController extends Controller
 {
@@ -110,9 +111,9 @@ class PermohonanFakturController extends Controller
     }
     public function getRetribusiByNpwrd($daftar_id)
     {
-
+        Log::info("getRetribusiByNpwrd called with daftar_id: $daftar_id");
         $retribusi = DetilJenisRetribusiUsaha::where('daftar_id', $daftar_id)->get();
-
+   
         if ($retribusi->isNotEmpty()) {
             $kdRekeningList = $retribusi->pluck('kd_rekening');
             $retribusi = JenisRetribusi::whereIn('kd_rekening', $kdRekeningList)->get(['kd_rekening', 'nm_retribusi']);

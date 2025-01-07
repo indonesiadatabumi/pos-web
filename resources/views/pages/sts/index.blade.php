@@ -184,11 +184,23 @@
 							<th class="text-nowrap">TGL SETOR</th>
 					</thead>
 					<tbody>
-						@php
-						$no = 1; // Inisialisasi variabel penomoran
-						@endphp
+					@php
+				$userRoleId = auth()->user()->role_id; // Mengambil role_id pengguna yang sedang login
 
-						@foreach($billings as $billing)
+				if ($userRoleId === 3) {
+				$filteredBillings = $billings->filter(function($billing) {
+				return $billing->daftarUsaha->nama === auth()->user()->fullname;
+				});
+				} else {
+				$filteredBillings = $billings;
+				}
+
+				@endphp
+				@php
+				$no = 1;
+				@endphp
+
+				@foreach ($filteredBillings as $billing)
 						<tr class="{{ $loop->even ? 'even' : 'odd' }} gradeX">
 							<td width="1%" class="fw-bold text-dark">{{ $no++ }}</td>
 							<td>{{ $billing->npwrd}}</td>

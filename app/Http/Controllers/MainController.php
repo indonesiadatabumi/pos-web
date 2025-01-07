@@ -9,24 +9,46 @@ use App\Models\Billing;
 use App\Models\PermohonanFaktur;
 use App\Models\PermohonanFakturDetil;
 use App\Models\VerifikasiPermohonan;
+use Illuminate\Support\Facades\Auth;
 
 class MainController extends Controller
 {
     public function dashboard()
     {
-        $news = News::all();
         $news = News::where('status_aktif', 1)->orderBy('id', 'desc')->get();
-
+    
+        $user = Auth::user();
+        $userRoleId = $user->role_id;
+    
+        // Default query untuk semua pengguna
         $totalJmlLembar = Billing::sum('ssrd_jml_lembar');
         $pengajuanProses = PermohonanFakturDetil::where('status', 'Diterima')->count();
         $jumlahPengajuan = PermohonanFaktur::count();
         $totalSetor = Billing::sum('ssrd_nilai_setor');
-
+    
+        // Jika userRoleId == 3, filter data berdasarkan fullname
+        if ($userRoleId === 3) {
+            $totalJmlLembar = Billing::whereHas('daftarUsaha', function($query) use ($user) {
+                $query->where('nama', $user->fullname);
+            })->sum('ssrd_jml_lembar');
+    
+            $pengajuanProses = PermohonanFakturDetil::where('status', 'Diterima')
+                ->whereHas('permohonanFaktur', function($query) use ($user) {
+                    $query->where('nama', $user->fullname);
+                })->count();
+    
+            $jumlahPengajuan = PermohonanFaktur::where('nama', $user->fullname)->count();
+    
+            $totalSetor = Billing::whereHas('daftarUsaha', function($query) use ($user) {
+                $query->where('nama', $user->fullname);
+            })->sum('ssrd_nilai_setor');
+        }
+    
         $formattedTotalSetor = 'Rp' . number_format($totalSetor, 0, ',', '.');
-
-        echo $formattedTotalSetor;
-        return view('pages.dashboard', compact('news',  'totalJmlLembar', 'pengajuanProses', 'jumlahPengajuan', 'formattedTotalSetor'));
+    
+        return view('pages.dashboard', compact('news', 'totalJmlLembar', 'pengajuanProses', 'jumlahPengajuan', 'formattedTotalSetor'));
     }
+    
 
     public function create()
     {

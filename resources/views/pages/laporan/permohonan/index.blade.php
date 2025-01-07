@@ -74,7 +74,7 @@
                                 <tr class="${index % 2 === 0 ? 'even' : 'odd'} gradeX">
                                     <td width="1%" class="fw-bold text-dark">${index + 1}</td>
                                     <td>${permohonan.npwrd}</td>
-                                    <td>${permohonan.nm_wr}</td>
+                                    <td>${permohonan.nama}</td>
                                     <td>${permohonan.no_seri}</td>
                                     <td>${permohonan.no_awal}</td>
                                     <td>${permohonan.no_akhir}</td>
@@ -99,7 +99,6 @@
             });
         }
 
-        fetchData();
 
         $('#wajibRetribusi, #StartDate, #EndDate').on('change', fetchData);
 
@@ -180,7 +179,9 @@
                         <select id="wajibRetribusi" class="form-select w-auto">
                             <option value="" selected>-- Pilih Nama Wajib Retribusi --</option>
                             @foreach($uniqueNames as $name)
+                            @if(auth()->user()->role_id !== 3 || auth()->user()->fullname === $name)
                             <option value="{{ $name }}">{{ $name }}</option>
+                            @endif
                             @endforeach
                         </select>
                     </div>
@@ -236,9 +237,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($laporanPermohonan as $index => $permohonan)
-                        <tr>
-                            <td>{{ $index + 1 }}.</td>
+                        @php
+                        $userRoleId = auth()->user()->role_id;
+                       
+                        if ($userRoleId === 3) {
+                        $filteredPermohonan = $laporanPermohonan->filter(function($permohonan) {
+                        return $permohonan->daftarUsaha->nama === auth()->user()->fullname;
+                        });
+                        } else {
+                      
+                        $filteredPermohonan = $laporanPermohonan;
+                        }
+
+                        @endphp
+                        @php
+                        $no = 1;
+                        @endphp
+
+                        @foreach ($filteredPermohonan as $permohonan)
+                        <tr class="{{ $loop->even ? 'even' : 'odd' }} gradeX">
+                            <td width="1%" class="fw-bold text-dark">{{ $no++ }}</td>
                             <td>
                                 @php
                                 $npwrd = $permohonan->npwrd;
@@ -247,7 +265,7 @@
                                 {{ $formattedNpwr }}
                             </td>
 
-                            <td>{{ $permohonan->nm_wr }}</td>
+                            <td>{{ $permohonan->nama }}</td>
                             <td>{{ $permohonan->no_seri }}</td>
                             <td>{{ $permohonan->no_awal }}</td>
                             <td>{{ $permohonan->no_akhir }}</td>

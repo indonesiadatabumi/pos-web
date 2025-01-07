@@ -102,7 +102,7 @@
 		</div>
 
 		<div class="col-md-3 mb-4">
-			<a href="/rekap/setor/struk" class="stat-card-link">
+			<a href="/laporan/stok/struk" class="stat-card-link">
 				<div class="stat-card bg-mintgreen">
 					<div class="stat-card-content">
 						<div class="stat-icon-background">
