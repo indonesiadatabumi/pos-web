@@ -19,7 +19,7 @@ class CreateBillingTable extends Migration
             $table->string('npwrd');
             // $table->string('nm_wr');
             // $table->string('nama');
-            $table->string('id_billing');
+            $table->string('id_billing')->unique();
             $table->string('ssrd_no_seri');
             $table->integer('ssrd_no_awal');
             $table->integer('ssrd_no_akhir');

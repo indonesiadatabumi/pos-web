@@ -51,10 +51,10 @@
                     <table align="left">
                         <tr>
                             <td>
-                                <img src="images/bekasi.png" alt="Logo" width="75">
+                                <img src="images/kutai.png" alt="Logo" width="75">
                             </td>
                             <td style=" font-size:large;">
-                                PEMERINTAH KOTA BEKASI <br> DINAS PERHUBUNGAN
+                                PEMERINTAH KOTA KUTAI KARTANEGARA <br> DINAS PERHUBUNGAN
                             </td>
                         </tr>
                     </table>
@@ -103,6 +103,7 @@
                                 <th>Tarif</th>
                                 <th>Nilai Setor</th>
                                 <th>Tanggal Setor</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
 
@@ -118,7 +119,8 @@
                                 <td>{{ $billing->ssrd_jml_lembar }}</td>
                                 <td>{{ $billing->ssrd_tarif }}</td>
                                 <td>{{ number_format($billing->ssrd_nilai_setor, 0, ',', '.') }}</td>
-                                <td>{{ $billing->formatted_created_at }}</td>
+                                <td>{{ $billing->created_at }}</td>
+                                <td>{{ $billing->status }}</td>
                             </tr>
 
                             @php
@@ -130,7 +132,7 @@
 
                         <tfoot>
                             <tr>
-                                <td colspan="2" style="text-align: right;">Total</td>
+                                <td colspan="3" style="text-align: right;">Total</td>
                                 <td>{{ $totalJmlLembar }}</td>
                                 <td></td>
                                 <td>{{ number_format($totalNilaiSetor, 0, ',', '.') }}</td>

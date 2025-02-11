@@ -62,10 +62,10 @@
     <div class="content">
         <table class="table">
             <tr>
-                <th width="38%" style="text-align: right;"><img src="images/bekasi.png" alt="Logo" height="130"></th>
+                <th width="38%" style="text-align: right;"><img src="images/kutai.png" alt="Logo" height="130"></th>
                 <th style="text-align: center;">
                     <div style="text-align: left; padding-left: 0px;">
-                        <h2>PEMERINTAH KAB. BEKASI<br>Badan Pendapatan Daerah</h2>
+                        <h2>PEMERINTAH KAB. KUTAI KARTANEGARA<br>Badan Pendapatan Daerah</h2>
                         <p>Jl. Yos Sudarso No.117</p>
                     </div>
                 </th>
@@ -78,7 +78,7 @@
         <p>No. STS: {{ $billings->id_billing }}</p>
         <p>Dari: {{ $billings->daftarUsaha_nama }}</p>
         <p>Kepada: Badan Pendapatan Daerah</p>
-        <p>Tanggal Setor: {{ $billings->formatted_created_at }}</p>
+        <p>Tanggal Setor: {{ $billings->created_at }}</p>
 
         <table class="table-rekap-sts">
             <thead>
@@ -98,8 +98,8 @@
                     <td>{{ $billings->ssrd_no_awal}}</td>
                     <td>{{ $billings->ssrd_no_akhir}}</td>
                     <td>{{ $billings->ssrd_jml_lembar}}</td>
-                    <td>Rp{{ $billings->ssrd_tarif}}</td>
-                    <td>Rp{{ $billings->ssrd_nilai_setor}}</td>
+                    <td>Rp {{ number_format($billings->ssrd_tarif, 0, ',', '.') }}</td>
+                    <td>Rp {{ number_format($billings->ssrd_nilai_setor, 0, ',', '.') }}</td>
                 </tr>
 
                 <!-- <tr>

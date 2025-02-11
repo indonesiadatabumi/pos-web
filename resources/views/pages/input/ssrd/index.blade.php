@@ -183,14 +183,14 @@
             }
 
 
-            if (noSeri && noAwal && noAkhir) {
+            if (noSeri) {
                 $.ajax({
                     url: '/get-tarif',
                     type: 'GET',
                     data: {
                         no_seri: noSeri,
-                        no_awal: noAwal,
-                        no_akhir: noAkhir
+                        // no_awal: noAwal,
+                        // no_akhir: noAkhir
                     },
                     success: function(response) {
                         if (response.tarif) {
@@ -201,8 +201,10 @@
                             tarif = parseFloat(response.tarif);
                             var jumlahLembar = parseInt($('#ssrd_jml_lembar').val());
                             var nilaiSetor = jumlahLembar * tarif;
-
                             sisaLembar = response.jml_lembar - jumlahLembar;
+                            if (response.sisa_belum_setor !== null) {
+                                sisaLembar = response.sisa_belum_setor - jumlahLembar
+                            }
 
                             $('#ssrd_sisa').val(sisaLembar);
 

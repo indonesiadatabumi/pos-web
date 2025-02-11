@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'Managed Tables - Buttons')
+@section('title', 'LAPORAN PERSEDIAAN')
 
 @push('css')
 <link href="/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />

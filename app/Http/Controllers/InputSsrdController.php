@@ -33,18 +33,24 @@ class InputSsrdController extends Controller
     public function getTarif(Request $request)
     {
         $noSeri = $request->input('no_seri');
-        $noAwal = $request->input('no_awal');
-        $noAkhir = $request->input('no_akhir');
+        // $noAwal = $request->input('no_awal');
+        // $noAkhir = $request->input('no_akhir');
 
         $verifikasi = PermohonanFakturDetil::where('no_seri', $noSeri)
-            ->where('no_awal', '<=', $noAwal)
-            ->where('no_akhir', '>=', $noAkhir)
+            // ->where('no_awal', '<=', $noAwal)
+            // ->where('no_akhir', '>=', $noAkhir)
             ->first();
-        if ($verifikasi) {
+
+        $billing = Billing::where('ssrd_no_seri', $noSeri)
+            // ->where('ssrd_no_awal', '<=', $noAwal)
+            // ->where('ssrd_no_akhir', '>=', $noAkhir)
+            ->latest()->first();
+        // dd($billing);
+        if ($verifikasi || $billing) {
             return response()->json([
                 'tarif' => $verifikasi->tarif,
                 'jml_lembar' => $verifikasi->jml_lembar,
-
+                'sisa_belum_setor' => $billing->ssrd_sisa ?? $verifikasi->jml_lembar,
             ]);
         }
 

@@ -113,10 +113,11 @@
 					<td>{{ $billing->created_at }}</td>
 					<td>{{ $billing->status }}</td>
 					<td>
-						<a class="btn btn-warning btn-sm">
+						<a class="btn btn-warning btn-sm" href="{{ route('pages.pembayaran.index') }}">
 							<i class="fa-solid fa-cash-register"></i>
 						</a>
 					</td>
+
 					<td>
 						<a href="{{ route('billing.cetak', $billing->id) }}" class="btn btn-success btn-sm">
 							<i class="fas fa-edit"></i>

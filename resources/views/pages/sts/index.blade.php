@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'Managed Tables - Buttons')
+@section('title', 'REKAP SETOR KARCIS')
 
 @push('css')
 <link href="/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
@@ -28,7 +28,6 @@
 <script>
 	$(document).ready(function() {
 		function fetchBillings() {
-			// Ambil nilai nama dan rentang tanggal
 			var nama = $('#wajibRetribusi').val();
 			var startDate = $('#StartDate').val();
 			var endDate = $('#EndDate').val();
@@ -42,10 +41,8 @@
 					end_date: endDate
 				},
 				success: function(response) {
-					// Kosongkan isi tabel
 					$('#data-table-buttons tbody').empty();
 
-					// Tambahkan data baru dari response
 					if (response.length > 0) {
 						$.each(response, function(index, billing) {
 							$('#data-table-buttons tbody').append(`
@@ -74,15 +71,12 @@
 			});
 		}
 
-		// Event listener untuk dropdown nama dan input tanggal
 		$('#wajibRetribusi, #StartDate, #EndDate').on('change', fetchBillings);
 		$('#resetFilters').on('click', function() {
-			// Kosongkan nilai dropdown dan tanggal
 			$('#wajibRetribusi').val('');
 			$('#StartDate').val('');
 			$('#EndDate').val('');
 
-			// Panggil fetchBillings untuk menampilkan semua data
 			fetchBillings();
 		});
 	});
@@ -113,7 +107,7 @@
 			<!-- BEGIN panel-heading -->
 			<div class="panel-heading">
 				<i class="fas fa-sign-in-alt icon"></i>
-				<div class="title">Daftar Setoran Pajak</div>
+				<div class="title">Daftar Setoran Retribusi</div>
 			</div>
 			<div class="container-fluid mt-3">
 				<div class="row mb-3">
@@ -128,8 +122,8 @@
 						<div class="d-flex align-items-center"></div>
 						<select value="" id="wajibRetribusi" class="form-select w-auto">
 							<option selected>-- Pilih Nama Wajib Pajak--</option>
-							@foreach($billings as $billing)
-							<option value="{{ $billing->daftarUsaha_nama }}">{{ $billing->daftarUsaha_nama }}</option>
+							@foreach($names as $name)
+							<option value="{{ $name->daftarUsaha_nama }}">{{ $name->daftarUsaha_nama }}</option>
 							@endforeach
 						</select>
 					</div>
@@ -185,17 +179,35 @@
 					</thead>
 					<tbody>
 						@php
-						$no = 1; // Inisialisasi variabel penomoran
+						$userRoleId = auth()->user()->role_id;
+
+						if ($userRoleId === 3) {
+						$filteredBillings = $billings->filter(function($billing) {
+						return $billing->daftarUsaha->nama === auth()->user()->fullname;
+						});
+						} else {
+						$filteredBillings = $billings;
+						}
+
+						@endphp
+						@php
+						$no = 1;
 						@endphp
 
-						@foreach($billings as $billing)
+						@foreach ($filteredBillings as $billing)
 						<tr class="{{ $loop->even ? 'even' : 'odd' }} gradeX">
-							<td width="1%" class="fw-bold text-dark">{{ $no++ }}</td>
-							<td>{{ $billing->npwrd}}</td>
+							<td width="1%" class="fw-bold text-dark">{{ $no++ }}.</td>
+							<td>
+								@php
+								$npwrd = $billing->npwrd;
+								$formattedNpwr = substr($npwrd, 0, 1) . '.' . substr($npwrd, 1);
+								@endphp
+								{{ $formattedNpwr }}
+							</td>
 							<td>{{ $billing->daftarUsaha_nama}}</td>
 							<td>{{ $billing->daftarUsaha_alamat}}</td>
 							<td>{{ $billing->id_billing }}</td>
-							<td>{{ $billing->ssrd_nilai_setor}}</td>
+							<td>Rp {{ number_format($billing->ssrd_nilai_setor, 0, ',', '.') }}</td>
 							<td>{{ $billing->formatted_created_at}}</td>
 						</tr>
 						@endforeach

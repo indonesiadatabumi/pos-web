@@ -1,6 +1,6 @@
 @extends('layouts.default')
 <meta name="csrf-token" content="{{ csrf_token() }}">
-@section('title', 'Managed Tables')
+@section('title', 'MANAJEMEN USER')
 
 @push('css')
 <link href="/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
@@ -18,7 +18,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function() {
-       
+
         $('#editUserModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget);
             var userId = button.data('id');
@@ -62,13 +62,13 @@
             });
         });
 
-   
+
         $('.toggle-status').on('click', function() {
             var userId = $(this).data('id');
             var newStatus = $(this).data('status');
-            var actionText = newStatus === 1 ? 'aktifkan' : 'nonaktifkan'; 
+            var actionText = newStatus === 1 ? 'aktifkan' : 'nonaktifkan';
 
-           
+
             Swal.fire({
                 title: 'Konfirmasi',
                 text: 'Apakah Anda yakin ingin ' + actionText + ' user ini?',
@@ -80,7 +80,7 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-    
+
                     $.ajax({
                         url: "{{ url('/users') }}/" + userId + "/toggle-status",
                         type: 'PUT',
@@ -89,13 +89,13 @@
                             status_aktif: newStatus
                         },
                         success: function(response) {
-              
+
                             Swal.fire(
                                 'Berhasil!',
                                 response.message,
                                 'success'
                             ).then(() => {
-                                location.reload(); 
+                                location.reload();
                             });
                         },
                         error: function(xhr) {
@@ -111,7 +111,7 @@
         });
         $('.delete-user-btn').on('click', function() {
             var userId = $(this).data('id');
-            var form = $(this).closest('.delete-user-form'); 
+            var form = $(this).closest('.delete-user-form');
 
             Swal.fire({
                 title: 'Konfirmasi Hapus',
@@ -124,7 +124,7 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    form.submit(); 
+                    form.submit();
                 }
             });
         });

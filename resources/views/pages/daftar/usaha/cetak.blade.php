@@ -39,12 +39,12 @@
                     <table align="center">
                         <tr>
                             <td>
-                                <img src="images/bekasi.png" alt="Logo" width="75">
+                                <img src="images/kutai.png" alt="Logo" width="75">
                             </td>
                             <td>
                                 <h3>
-                                    <b>PEMERINTAH KOTA BEKASI <br> DINAS PERHUBUNGAN</b>
-                                    <br>KOTA BEKASI
+                                    <b>PEMERINTAH KOTA KUTAI KARTANEGARA <br> DINAS PERHUBUNGAN</b>
+                                    <br>KOTA KUTAI KARTANEGARA
                                 </h3>
                             </td>
                         </tr>

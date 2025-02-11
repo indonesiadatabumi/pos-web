@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'Laporan - Rekap Setor Struk')
+@section('title', 'REKAP SETOR KARCIS')
 
 @push('css')
 <link href="/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
@@ -118,16 +118,16 @@
 
 <ol class="breadcrumb float-xl-end">
 	<li class="breadcrumb-item"><a href="javascript:;">Laporan</a></li>
-	<li class="breadcrumb-item"><a href="javascript:;">Laporan Stok Struk</a></li>
+	<li class="breadcrumb-item"><a href="javascript:;">Laporan Stok Karcis</a></li>
 </ol>
 
-<h1>Laporan Stok Struk</h1>
+<h1>Laporan Stok Karcis</h1>
 <div class="row">
 	<div class="col-xl-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<i class="fas fa-sign-in-alt icon"></i>
-				<div class="title">Daftar Persediaan Struk</div>
+				<div class="title">Daftar Persediaan Karcis</div>
 			</div>
 			<div class="container-fluid mt-3">
 				<div class="row mb-3">
@@ -142,8 +142,8 @@
 						<div class="d-flex align-items-center"></div>
 						<select id="wajibRetribusi" class="form-select w-auto">
 							<option value="" selected>-- Pilih Nama Wajib Pajak--</option>
-							@foreach($billings as $billing)
-							<option value="{{ $billing->daftarUsaha_nama }}">{{ $billing->daftarUsaha_nama }}</option>
+							@foreach($names as $name)
+							<option value="{{ $name->daftarUsaha_nama }}">{{ $name->daftarUsaha_nama }}</option>
 							@endforeach
 						</select>
 					</div>
@@ -197,21 +197,39 @@
 					</thead>
 					<tbody>
 						@php
-						$no = 1; // Inisialisasi variabel penomoran
+						$userRoleId = auth()->user()->role_id; // Mengambil role_id pengguna yang sedang login
+
+						if ($userRoleId === 3) {
+						$filteredBillings = $billings->filter(function($billing) {
+						return $billing->daftarUsaha->nama === auth()->user()->fullname;
+						});
+						} else {
+						$filteredBillings = $billings;
+						}
+
+						@endphp
+						@php
+						$no = 1;
 						@endphp
 
-						@foreach($billings as $billing)
+						@foreach ($filteredBillings as $billing)
 						<tr class="{{ $loop->even ? 'even' : 'odd' }} gradeX">
-							<td width="1%" class="fw-bold text-dark">{{ $no++ }}</td>
-							<td>{{ $billing->npwrd}}</td>
+							<td width="1%" class="fw-bold text-dark">{{ $no++ }}.</td>
+							<td>
+								@php
+								$npwrd = $billing->npwrd;
+								$formattedNpwr = substr($npwrd, 0, 1) . '.' . substr($npwrd, 1);
+								@endphp
+								{{ $formattedNpwr }}
+							</td>
 							<td>{{ $billing->daftarUsaha_nama}}</td>
 							<td>{{ $billing->daftarUsaha_alamat}}</td>
 							<td>{{ $billing->ssrd_no_seri }}</td>
 							<td>{{ $billing->formatted_created_at}}</td>
+							<td>{{ $billing->jumlahLembar}}</td>
 							<td>{{ $billing->ssrd_jml_lembar}}</td>
-							<td>{{ $billing->ssrd_no_akhir}}</td>
 							<td>{{ $billing->ssrd_sisa}}</td>
-							<td>{{ $billing->ssrd_nilai_setor}}</td>
+							<td>Rp {{ number_format($billing->ssrd_nilai_setor, 0, ',', '.') }}</td>
 						</tr>
 						@endforeach
 					</tbody>

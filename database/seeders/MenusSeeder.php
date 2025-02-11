@@ -47,6 +47,14 @@ class MenusSeeder extends Seeder
                 'slug' => 'penetapan-billing',
             ],
             [
+                'name' => 'Pembayaran',
+                'slug' => 'pembayaran',
+            ],
+            [
+                'name' => 'Pembayaran Billing',
+                'slug' => 'pembayaran-billing',
+            ],
+            [
                 'name' => 'Laporan',
                 'slug' => 'laporan',
             ],

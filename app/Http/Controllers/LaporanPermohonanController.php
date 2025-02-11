@@ -5,14 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PermohonanFaktur;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class LaporanPermohonanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
+        if (!Auth::check()) {
+            abort(403, 'Unauthorized');
+        }
+
+        $user = Auth::user();
+        $userRoleId = $user->role_id;
+
         $query = PermohonanFaktur::rightJoin(
             'permohonan_faktur_detil',
             'permohonan_faktur.no_permohonan',
@@ -20,12 +25,15 @@ class LaporanPermohonanController extends Controller
             'permohonan_faktur_detil.no_permohonan'
         );
 
-        // Filter berdasarkan nama
-        if ($request->filled('nama')) {
-            $query->where('nm_wr', 'like', '%' . $request->nama . '%');
+        if ($userRoleId === 3) {
+            $query->where('permohonan_faktur.nama', $user->fullname);
         }
 
-        // Filter berdasarkan rentang tanggal
+
+        if ($request->filled('nama')) {
+            $query->where('permohonan_faktur.nama', 'like', '%' . $request->nama . '%');
+        }
+
         if ($request->filled('start_date') && $request->filled('end_date')) {
             $query->whereBetween('permohonan_faktur.created_at', [$request->start_date, $request->end_date]);
         }
@@ -36,13 +44,14 @@ class LaporanPermohonanController extends Controller
             $item->formatted_total = 'Rp' . number_format($item->total, 0, ',', '.');
             return $item;
         });
+
         if ($request->ajax()) {
             return response()->json($laporanPermohonan);
         }
 
-        $uniqueNames = PermohonanFaktur::select('nm_wr')
+        $uniqueNames = PermohonanFaktur::select('nama')
             ->distinct()
-            ->pluck('nm_wr');
+            ->pluck('nama');
 
         // Return ke view
         return view('pages.laporan.permohonan.index', compact('laporanPermohonan', 'uniqueNames'));

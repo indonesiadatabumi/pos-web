@@ -1,6 +1,6 @@
 @extends('layouts.default')
 <meta name="csrf-token" content="{{ csrf_token() }}">
-@section('title', 'Managed Tables')
+@section('title', 'MANAJEMEN BERITA')
 
 @push('css')
 <link href="/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />

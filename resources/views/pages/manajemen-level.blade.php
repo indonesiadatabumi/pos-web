@@ -1,6 +1,6 @@
 @extends('layouts.default')
 <meta name="csrf-token" content="{{ csrf_token() }}">
-@section('title', 'Managed Tables')
+@section('title', 'MANAJEMEN LEVEL')
 
 @push('css')
 <link href="/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
@@ -212,53 +212,53 @@
 
         <br><br>
         <div class="table-responsive">
-        <table id="data-table-default" class="table table-striped table-bordered align-middle">
-            <thead>
-                <tr>
-                    <th width="3%">No.</th>
-                    <th class="text-nowrap" width="33%">Role</th>
-                    @can('edit-manajemen-level')
-                    <th class="text-nowrap" width="33%">Akses</th>
-                    <th class="text-nowrap" width="33%">Aksi</th>
-                    @endcan
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($roles as $key => $role)
-                <tr class="{{ $key % 2 == 0 ? 'odd' : 'even' }} gradeX">
-                    <td class="fw-bold text-dark">{{ $key + 1 }}</td>
-                    <td>{{ $role->name }}</td>
-                    @can('edit-manajemen-level')
-                    <td>
-                        <button class="btn btn-success btn-sm me-2" data-bs-toggle="modal"
-                            data-bs-target="#accessRoleModal" data-role-id="{{ $role->id }}"
-                            data-role-name="{{ $role->name }}">
-                            <i class="fas fa-lock"></i> Hak Akses Menu
-                        </button>
-                    </td>
-                    <td>
-                        <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal"
-                            data-bs-target="#editRoleModal" data-id="{{ $role->id }}"
-                            data-name="{{ $role->name }}">
-                            <i class="fas fa-edit"></i> Edit
-                        </button>
-                        @can('delete-manajemen-level')
-                        <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display:inline;" class="delete-form">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm me-2">
-                                <i class="fa fa-trash"></i> Delete
-                            </button>
-                        </form>
+            <table id="data-table-default" class="table table-striped table-bordered align-middle">
+                <thead>
+                    <tr>
+                        <th width="3%">No.</th>
+                        <th class="text-nowrap" width="33%">Role</th>
+                        @can('edit-manajemen-level')
+                        <th class="text-nowrap" width="33%">Akses</th>
+                        <th class="text-nowrap" width="33%">Aksi</th>
                         @endcan
-                    </td>
-                    @endcan
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($roles as $key => $role)
+                    <tr class="{{ $key % 2 == 0 ? 'odd' : 'even' }} gradeX">
+                        <td class="fw-bold text-dark">{{ $key + 1 }}</td>
+                        <td>{{ $role->name }}</td>
+                        @can('edit-manajemen-level')
+                        <td>
+                            <button class="btn btn-success btn-sm me-2" data-bs-toggle="modal"
+                                data-bs-target="#accessRoleModal" data-role-id="{{ $role->id }}"
+                                data-role-name="{{ $role->name }}">
+                                <i class="fas fa-lock"></i> Hak Akses Menu
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal"
+                                data-bs-target="#editRoleModal" data-id="{{ $role->id }}"
+                                data-name="{{ $role->name }}">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            @can('delete-manajemen-level')
+                            <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display:inline;" class="delete-form">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm me-2">
+                                    <i class="fa fa-trash"></i> Delete
+                                </button>
+                            </form>
+                            @endcan
+                        </td>
+                        @endcan
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
     <!-- END panel-body -->
 
     <script>

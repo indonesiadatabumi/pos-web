@@ -127,7 +127,7 @@
                             <div class="col-md-6">
                                 <div class="card p-3" style="background: #DEE1E6;">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <h4>Informasi Wajib Pajak</h4>
+                                        <h4>Informasi Wajib Retribusi</h4>
                                         <b><strong>Tanggal: </strong><span id="currentDate"></span></b>
                                     </div>
                                     <br>
@@ -258,6 +258,9 @@
                                 url: `{{ url('/permohonan/faktur/retribusi') }}/${data.daftar_id}`, // Kirim daftar_id
                                 method: 'GET',
                                 success: function(retribusiData) {
+                                    console.log('Data retribusi:', retribusiData);
+                                    console.log(`{{ url('/permohonan/faktur/retribusi') }}/${data.daftar_id}`);
+
                                     if (retribusiData.length > 0) {
                                         // Membuat opsi dropdown berdasarkan data retribusi yang diterima
                                         const retribusiOptions = retribusiData.map(item =>

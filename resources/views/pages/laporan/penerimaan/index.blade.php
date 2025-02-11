@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'Managed Tables - Buttons')
+@section('title', 'LAPORAN PENERIMAAN')
 
 @push('css')
 <link href="/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
@@ -108,7 +108,7 @@
             <!-- BEGIN panel-heading -->
             <div class="panel-heading">
                 <i class="fas fa-sign-in-alt icon"></i>
-                <div class="title">Daftar Setoran</div>
+                <div class="title">Daftar Penerimaan</div>
             </div>
             <div class="container-fluid mt-3">
                 <div class="row mb-3">
@@ -123,8 +123,8 @@
                         <div class="d-flex align-items-center"></div>
                         <select id="wajibRetribusi" class="form-select w-auto">
                             <option selected>-- Pilih Nama Wajib Pajak--</option>
-                            @foreach($billings as $billing)
-                            <option value="{{ $billing->daftarUsaha_nama }}">{{ $billing->daftarUsaha_nama }}</option>
+                            @foreach($names as $name)
+                            <option value="{{ $name->daftarUsaha_nama }}">{{ $name->daftarUsaha_nama }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -177,17 +177,35 @@
                     </thead>
                     <tbody>
                         @php
+                        $userRoleId = auth()->user()->role_id; // Mengambil role_id pengguna yang sedang login
+
+                        if ($userRoleId === 3) {
+                        $filteredBillings = $billings->filter(function($billing) {
+                        return $billing->daftarUsaha->nama === auth()->user()->fullname;
+                        });
+                        } else {
+                        $filteredBillings = $billings;
+                        }
+
+                        @endphp
+                        @php
                         $no = 1;
                         @endphp
 
-                        @foreach($billings as $billing)
+                        @foreach ($filteredBillings as $billing)
                         <tr class="{{ $loop->even ? 'even' : 'odd' }} gradeX">
-                            <td width="1%" class="fw-bold text-dark">{{ $no++ }}</td>
-                            <td>{{ $billing->npwrd}}</td>
+                            <td width="1%" class="fw-bold text-dark">{{ $no++ }}.</td>
+                            <td>
+                                @php
+                                $npwrd = $billing->npwrd;
+                                $formattedNpwr = substr($npwrd, 0, 1) . '.' . substr($npwrd, 1);
+                                @endphp
+                                {{ $formattedNpwr }}
+                            </td>
                             <td>{{ $billing->daftarUsaha_nama}}</td>
                             <td>{{ $billing->daftarUsaha_alamat}}</td>
                             <td>{{ $billing->id_billing }}</td>
-                            <td>{{ $billing->ssrd_nilai_setor}}</td>
+                            <td>Rp {{ number_format($billing->ssrd_nilai_setor, 0, ',', '.') }}</td>
                             <td>{{ $billing->formatted_created_at}}</td>
                             <td>
                                 <a href="{{ url('prn-ba-lap/' . $billing->id) }}" target="_blank" class="btn btn-warning btn-sm">

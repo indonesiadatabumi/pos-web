@@ -205,7 +205,7 @@
                             data-tarif="{{ $item->tarif }}"
                             data-total="{{ $item->total }}"
                             data-status="{{ $item->status }}">
-                            <i class="fas fa-check-circle"></i> Validas
+                            <i class="fas fa-check-circle"></i> Validasi
                         </button>
 
                         <a href="{{ url('prn-ba-karcis?sid=' . $item->id) }}" target="_blank" class="btn btn-warning btn-sm">
