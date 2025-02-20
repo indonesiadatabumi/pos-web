@@ -97,9 +97,9 @@
                                 </div>
                             </div>
                             <div class="card-footer bg-light d-flex justify-content-between p-2 mt-2">
-                                <a href="/pembelian/{{ $item->id }}/edit" class="btn btn-info btn-sm flex-grow-1 me-1">
+                                {{-- <a href="/pembelian/{{ $item->id }}/edit" class="btn btn-info btn-sm flex-grow-1 me-1">
                                     <i class="fas fa-edit"></i> Edit
-                                </a>
+                                </a> --}}
                                 <button type="button" class="btn btn-danger btn-sm flex-grow-1 ms-1" onclick="hapusPembelian({{ $item->id }})">
                                     <i class="fas fa-trash-alt"></i> Hapus
                                 </button>
