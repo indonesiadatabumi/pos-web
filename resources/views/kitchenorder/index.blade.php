@@ -105,7 +105,8 @@
                                                     <div class="card-body d-flex align-items-center justify-content-between">
                                                         <!-- Product Image -->
                                                         <div class="pos-task-product-img me-2">
-                                                            <div class="cover" style="background-image: url({{ asset('storage/' . $item->produk->foto) }}); width: 60px; height: 60px; background-size: cover; background-position: center;"></div>
+                                                            <div class="cover" style="background-image: url({{ asset('storage/' . urlencode($item->produk->foto)) }}); width: 60px; height: 60px; background-size: cover; background-position: center;"></div>
+
                                                         </div>
                                                         <!-- Product Info -->
                                                         <div class="pos-task-product-info flex-grow-1">
