@@ -1,5 +1,34 @@
 <?php
 
+class UrlHelper
+{
+    //  if (!function_exists('encodeProductName')) {
+        public static function encodeProductName($url){
+            $parsedUrl = parse_url($url);
+            $pathSegments = explode('/', $parsedUrl['path']);
+            $lastSegment = array_pop($pathSegments);
+            $encodedLastSegment = rawurlencode($lastSegment);
+            $newPath = implode('/', $pathSegments) . '/' . $encodedLastSegment;
+            $encodedUrl = $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $newPath;
+            if (isset($parsedUrl['query'])) {
+                $encodedUrl .= '?' . $parsedUrl['query'];
+            }
+            return $encodedUrl;
+        }
+    }
+
+    if (!function_exists('encodeLastSegment')) {
+        function encodeLastSegment($url) {
+            $parts = explode('/', $url);
+            
+            $lastSegment = array_pop($parts);
+            $encodedLastSegment = rawurlencode($lastSegment);
+            
+            $parts[] = $encodedLastSegment;
+            return implode('/', $parts);
+        }
+    }
+//  }
 function format_uang ($angka) {
     return number_format($angka, 0, ',', '.');
 }

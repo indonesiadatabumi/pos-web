@@ -30,6 +30,37 @@
     text-align: center;  
     white-space: nowrap;   
 }
+.pos-task-product-img img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd; 
+    padding: 3px;
+    background-color: white;
+}
+
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+@media (max-width: 768px) {
+    .pos-task-product-img img {
+        width: 50px;
+        height: 50px;
+    }
+    .custom-title,
+    .custom-badge,
+    .custom-text,
+    .custom-button {
+        font-size: 0.9rem;
+    }
+}
 
 </style>
 <nav class="navbar navbar-expand-lg navbar-light bg-light px-4 py-3">
@@ -99,39 +130,42 @@
                                 <div class="pos-task-product-row">
                                     <div class="row">
                                         @foreach ($order->detail ?? [] as $item)
-                                            <div class="col-md-4 mb-3">
-                                                <!-- Product Card -->
-                                                <div class="card border-secondary {{ $item->status === 'complete' ? 'bg-light' : '' }}">
-                                                    <div class="card-body d-flex align-items-center justify-content-between">
-                                                        <!-- Product Image -->
-                                                        <div class="pos-task-product-img me-2">
-                                                            <div class="cover" style="background-image: url({{ asset('storage/' . urlencode($item->produk->foto)) }}); width: 60px; height: 60px; background-size: cover; background-position: center;"></div>
-
-                                                        </div>
-                                                        <!-- Product Info -->
-                                                        <div class="pos-task-product-info flex-grow-1">
-                                                            <div class="info">
-                                                                <div class="title fw-bold custom-text {{ $item->status === 'complete' ? 'text-muted' : '' }}">
-                                                                    {{ $item->produk->nama_produk ?? 'Unknown' }}
-                                                                </div>
-                                                                <div class="desc custom-text">
-                                                                    Jumlah: x{{ $item->jumlah }}<br/>
-                                                                </div>
+                                        <div class="col-md-4 mb-3">
+                                            <!-- Product Card -->
+                                            <div class="card border-secondary {{ $item->status === 'complete' ? 'bg-light' : '' }}">
+                                                <div class="card-body d-flex align-items-center justify-content-between">
+                                                    <!-- Product Image -->
+                                                    <div class="pos-task-product-img me-2">
+                                                        <img src="{{ asset('storage/' . ($item->produk->foto ?? 'default.jpg')) }}" 
+                                                        alt="{{ $item->produk->nama_produk ?? 'Product Image' }}" 
+                                                        class="img-fluid pos-task-product-img">
+                                                   
+                                                    </div>
+                                                    <!-- Product Info -->
+                                                    <div class="pos-task-product-info flex-grow-1">
+                                                        <div class="info">
+                                                            <div class="title fw-bold custom-text {{ $item->status === 'complete' ? 'text-muted' : '' }}">
+                                                                {{ $item->produk->nama_produk ?? 'Unknown' }}
+                                                            </div>
+                                                            <div class="desc custom-text">
+                                                                Jumlah: x{{ $item->jumlah }}<br/>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <!-- Complete Button -->
-                                                    <div class="text-center mt-3">
-                                                        @if ($item->status !== 'complete')
-                                                            <a href="#" class="btn btn-success complete-btn custom-button mb-2" data-id="{{ $item->id }}">Complete</a>
-                                                        @else
-                                                            <button class="btn btn-success custom-button mb-2" disabled>Completed</button>
-                                                        @endif
-                                                    </div>
                                                 </div>
-                                                <!-- End Product Card -->
+                                                <!-- Complete Button -->
+                                                <div class="text-center mt-3">
+                                                    @if ($item->status !== 'complete')
+                                                        <a href="#" class="btn btn-success complete-btn custom-button mb-2" data-id="{{ $item->id }}">Complete</a>
+                                                    @else
+                                                        <button class="btn btn-success custom-button mb-2" disabled>Completed</button>
+                                                    @endif
+                                                </div>
                                             </div>
-                                        @endforeach
+                                            <!-- End Product Card -->
+                                        </div>
+                                    @endforeach
+                                    
                                     </div>
                                 </div>
                                 <!-- End Product Row -->

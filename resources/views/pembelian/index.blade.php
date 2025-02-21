@@ -206,7 +206,7 @@
                         <div class="col-md-4 product" data-kategori="{{ $item->id_kategori }}">
                             <div class="card shadow-sm">
                                 <img src="{{ asset('storage/' . $item->foto) }}" class="card-img-top"
-                                    alt="{{ $item->nama_produk }}">
+                                    alt="{{ $item->nama_produk }}"> 
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $item->nama_produk }}</h5>
                                     <p class="card-description text-mute"><em>{{ $item->deskripsi }}</em></p>

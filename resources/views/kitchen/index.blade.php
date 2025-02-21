@@ -10,7 +10,28 @@
 
 @push('scripts')
 <style>
-    
+.product-img {
+    width: 100%;
+    height: 150px; /* Sesuaikan tinggi gambar */
+    overflow: hidden;
+    border-radius: 5px; /* Opsional, untuk membuat sudut lebih halus */
+}
+
+.product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Membuat gambar memenuhi area tanpa distorsi */
+}
+
+
+.product {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    background: #fff;
+}
+
     .custom-title {
         font-size: 1rem;  
     }
@@ -135,13 +156,12 @@
             <div class="pos-stock-content-container">
                 <div class="row gx-0">
                     @foreach ($produk as $item)
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6"> <!-- Mengubah ukuran grid untuk menampilkan lebih banyak card per baris -->
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
                         <div class="pos-stock-product">
                             <div class="pos-stock-product-container">
                                 <div class="product">
                                     <div class="product-img">
-                                        <div class="img" style="background-image: url('{{ asset('storage/' . urlencode($item->foto)) }}');"></div>
-
+                                        <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->nama_produk }}" class="img-fluid">
                                     </div>
                                     <div class="product-info">
                                         <div class="title">{{ $item->nama_produk }}</div>
@@ -154,24 +174,19 @@
                                                         @csrf
                                                         @method('PUT')
                                                         <input type="number" name="stok" class="form-control" value="{{ $item->stok }}" required id="stockInput{{ $item->id }}" disabled />
-                                                        
-                                                        <!-- Tombol Edit -->
+                
                                                         <button type="button" id="editBtn{{ $item->id }}" class="btn btn-primary btn-sm mt-1" onclick="toggleEdit({{ $item->id }})">
                                                             <i class="fa fa-edit fa-fw"></i>
                                                         </button>
-                                                        
-                                                        <!-- Tombol Update -->
+                
                                                         <button type="submit" class="btn btn-success btn-sm mt-1" id="updateBtn{{ $item->id }}" style="display:none;">
                                                             <i class="fa fa-check fa-fw"></i>
                                                         </button>
-                                                        
-                                                        <!-- Tombol Cancel -->
+                
                                                         <button type="button" class="btn btn-danger btn-sm mt-1" id="cancelBtn{{ $item->id }}" style="display:none;" onclick="toggleEdit({{ $item->id }})">
                                                             <i class="fa fa-times fa-fw"></i>
                                                         </button>
                                                     </form>
-                                                    
-                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -180,7 +195,8 @@
                             </div>
                         </div>
                     </div>
-                    @endforeach
+                @endforeach
+                
                 </div>
                 
             </div>
