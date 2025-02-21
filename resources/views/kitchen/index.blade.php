@@ -140,7 +140,8 @@
                             <div class="pos-stock-product-container">
                                 <div class="product">
                                     <div class="product-img">
-                                        <div class="img" style="background-image: url({{ asset('storage/' . $item->foto) }})"></div>
+                                        <div class="img" style="background-image: url('{{ asset('storage/' . urlencode($item->foto)) }}');"></div>
+
                                     </div>
                                     <div class="product-info">
                                         <div class="title">{{ $item->nama_produk }}</div>
