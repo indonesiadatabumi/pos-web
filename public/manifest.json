@@ -8,11 +8,11 @@
     "theme_color": "#6777ef",
         "icons": [
           {
-            "src": "pwa/icons/pwa/icons/windows11/SmallTile.scale-100.png",
+            "src": "pwa/icons/windows11/SmallTile.scale-100.png",
             "sizes": "71x71"
           },
           {
-            "src": "pwa/icons/pwa/icons/windows11/SmallTile.scale-125.png",
+            "src": "pwa/icons/windows11/SmallTile.scale-125.png",
             "sizes": "89x89"
           },
           {
