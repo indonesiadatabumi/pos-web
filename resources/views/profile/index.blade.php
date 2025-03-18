@@ -48,7 +48,8 @@
                 <div class="mb-3">
                     <label for="nomor_telepon" class="form-label">Nomor Telepon</label>
                     <input type="text" class="form-control" id="nomor_telepon" name="nomor_telepon"
-                        value="{{ Auth::user()->nomor_telepon }}" disabled>
+                    value="{{ Auth::user()->nomor_telepon }}" disabled>
+                
                 </div>
                 <div class="mb-3">
                     <label for="alamat" class="form-label">Alamat</label>
