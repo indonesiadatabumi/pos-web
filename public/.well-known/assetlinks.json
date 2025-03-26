@@ -3,7 +3,7 @@
       "relation": ["delegate_permission/common.handle_all_urls"],
       "target": {
         "namespace": "android_app",
-        "package_name": "com.posporasi.app",
+        "package_name": "id.go.kukarkab.pos_bapenda.twa",
         "sha256_cert_fingerprints": ["19:F7:2A:D2:A2:F7:32:0C:75:A1:98:20:35:04:6C:95:C2:BA:65:17:56:19:B0:D9:CE:E2:02:C6:1D:81:8C:0C"]
       }
     }
